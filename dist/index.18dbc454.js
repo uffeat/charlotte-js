@@ -558,7 +558,8 @@ function hmrAccept(bundle, id) {
 
 },{}],"1SICI":[function(require,module,exports) {
 // Import all of Bootstrap's JS
-var _bootstrap = require("bootstrap");
+var _bootstrap = require("bootstrap"); //import * as py_main from '../py/main.py'
+ //py_main.print_stuff()
 
 },{"bootstrap":"h36JB"}],"h36JB":[function(require,module,exports) {
 /*!

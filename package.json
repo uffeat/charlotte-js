@@ -21,7 +21,8 @@
   "homepage": "https://github.com/uffeat/charlotte-js#readme",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
-    "parcel": "^2.8.3"
+    "parcel": "^2.8.3",
+    "parcel-transformer-transcrypt": "^1.0.2"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.7",
