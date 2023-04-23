@@ -8,3 +8,7 @@ main.toast.toast("hello", true)
 main.modal.modal()
 */
 
+const test_button_1 = document.create_element("button.btn.btn-primary", {
+  text: "Test 1",
+  parent: document.root,
+});

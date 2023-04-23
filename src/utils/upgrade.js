@@ -9,6 +9,8 @@ ShadowRoot.prototype.get_all = ShadowRoot.prototype.querySelectorAll
 document.get = document.querySelector
 document.get_all = document.querySelectorAll
 
+document.root = document.getElementById('appGoesHere')
+
 // ELEMENT CREATION.
 
 document.create_element = function (tagArg, props, ...children) {
