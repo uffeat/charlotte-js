@@ -1,4 +1,6 @@
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
-//import * as py_main from '../py/main.py'
-//py_main.print_stuff()
+import * as main from '../../.build/main.js'
+
+main.toast.toast("hello", true)
+main.modal.modal()

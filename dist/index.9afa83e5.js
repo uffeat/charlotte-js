@@ -563,19 +563,18 @@ var _mainJs = require("../../.build/main.js");
 parcelHelpers.exportAll(_mainJs, exports);
 
 },{"../../.build/main.js":"ksBEn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ksBEn":[function(require,module,exports) {
-// Transcrypt'ed from Python, 2023-04-22 01:31:12
+// Transcrypt'ed from Python, 2023-04-23 00:58:17
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "print_stuff", ()=>print_stuff);
+parcelHelpers.export(exports, "toast", ()=>toast);
 var _orgTranscryptRuntimeJs = require("./org.transcrypt.__runtime__.js");
 var __name__ = "__main__";
-(0, _orgTranscryptRuntimeJs.print)("Awesome");
-var print_stuff = function() {
-    (0, _orgTranscryptRuntimeJs.print)("STUFF");
+var toast = function() {
+    (0, _orgTranscryptRuntimeJs.print)("TOAST!");
 };
 
 },{"./org.transcrypt.__runtime__.js":"aJoBq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aJoBq":[function(require,module,exports) {
-// Transcrypt'ed from Python, 2023-04-22 01:22:23
+// Transcrypt'ed from Python, 2023-04-23 00:52:24
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "__envir__", ()=>__envir__);

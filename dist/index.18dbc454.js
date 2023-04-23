@@ -558,10 +558,12 @@ function hmrAccept(bundle, id) {
 
 },{}],"1SICI":[function(require,module,exports) {
 // Import all of Bootstrap's JS
-var _bootstrap = require("bootstrap"); //import * as py_main from '../py/main.py'
- //py_main.print_stuff()
+var _bootstrap = require("bootstrap");
+var _mainJs = require("../../.build/main.js");
+_mainJs.toast.toast("hello", true);
+_mainJs.modal.modal();
 
-},{"bootstrap":"h36JB"}],"h36JB":[function(require,module,exports) {
+},{"bootstrap":"h36JB","../../.build/main.js":"ksBEn"}],"h36JB":[function(require,module,exports) {
 /*!
   * Bootstrap v5.2.3 (https://getbootstrap.com/)
   * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
@@ -4152,37 +4154,7 @@ var modifierPhases = [
     afterWrite
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"cap3W":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cap3W":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "applyStyles", ()=>(0, _applyStylesJsDefault.default));
