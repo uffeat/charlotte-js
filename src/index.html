@@ -4,17 +4,54 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="scss/styles.scss">
+  <title>Sandbox</title>
+  <link rel="shortcut icon" href="#" type="image/x-icon">
+
+   <!--UiKit (not npm-installed).-->
+   <link rel="stylesheet" href="./libs/uikit/core.css">
+   <link rel="stylesheet" href="./libs/uikit/custom.css">
+   <script src="./libs/uikit/core.js"></script>
+   <script src="./libs/uikit/icons.js"></script>
+   
+
+
+   <!--Bootstrap for use WITH Parcel.-->
+   <!--
+   <link rel="stylesheet" href="scss/styles.scss">
+   -->
+
+   <!--Bootstrap for use WITHOUT Parcel.-->
+   <link rel="stylesheet" href="./libs/bootstrap/core.css">
+   <script src="./libs/bootstrap/core.js"></script>
+
+   <!--Bootstrap custom styles without or without Parcel.-->
+   <link rel="stylesheet" href="./libs/bootstrap/custom.css">
+   
+ 
+  <!--Transcrypt helper for use with or without Parcel.-->
+  <!--
   <script type="module" src="./js/premain.js"></script>
+  -->
+
+  <!--Transcrypt for use WITH Parcel.-->
   <!--
   <script type="module" src="./pytn/main.py"></script>
   -->
+
+  <!--Brython.-->
+  <!--
+  <script type="text/javascript" src="./libs/brython/brython.js"></script>
+  <script type="text/javascript" src="./libs/brython/brython_stdlib.js"></script>
+  -->
+  
   <script type="module" src="./js/main.js"></script>
 
 
 </head>
+<!--For use with Brython.-->
+<!--<body onload="brython(1)">-->
 <body>
+
   <div id="appGoesHere">
     <button class="btn">Bootstrap button</button>
   </div>

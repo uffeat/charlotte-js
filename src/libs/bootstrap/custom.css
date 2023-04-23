@@ -1,0 +1,64 @@
+/* Bootstrap forms */
+
+/* Form: required-message */
+
+input:is(.form-control, .form-check-input) ~ .required-message {
+  font-size: 0.875em;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+input:is(.form-control, .form-check-input):not(:required) ~ .required-message {
+  display: none;
+}
+
+input:is(.form-control):required:not(:placeholder-shown) ~ .required-message {
+  display: none;
+}
+
+input:is(.form-check-input):required:checked~ .required-message {
+  display: none;
+}
+
+form.was-validated input:is(.form-control, .form-check-input) ~ .required-message {
+  display: none;
+}
+
+/* Form: no-show-valid */
+
+form.was-validated.no-show-valid input:valid {
+  border: 1px solid rgb(206, 212, 218);
+}
+
+form.was-validated.no-show-valid input:not([type='checkbox']):valid {
+  background-image: none !important;
+}
+
+form.was-validated.no-show-valid input:valid:focus {
+  border: 1px solid rgb(206, 212, 218);
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+form.was-validated.no-show-valid input:not(:placeholder-shown):valid ~ label {
+  color: var(--bs-body-color);
+}
+
+form.was-validated.no-show-valid input:checked {
+  border: 1px solid rgb(206, 212, 218);
+  background-color: var(--bs-blue) !important;
+}
+
+form.no-show-valid input.form-check-input:valid ~ label {
+  color: #212529 !important;
+}
+
+/* Modal */
+
+.modal-dialog.sb {
+  height: 100vh;
+  padding-bottom: 28px;
+  margin: 0;
+  margin-left: 28px;
+  display: flex;
+  align-items: flex-end;
+}
