@@ -19,7 +19,7 @@ def build():
             value = path.read_text()
             assets[key] = value
     text = f"export const assets = {json.dumps(assets, indent=2)}"
-    Path(f"{project}/assets/assets.js").write_text(text)
+    Path(f"{project}/assets/_assets.js").write_text(text)
     
 
 

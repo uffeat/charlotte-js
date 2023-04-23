@@ -106,4 +106,9 @@ Object.defineProperty(Node.prototype, "text", {
   configurable: true,
 });
 
+// COMPOSITION
+
+HTMLElement.prototype.compose = function (Composition, ...args) {
+  this[Composition.name.toLowerCase()] = new Composition(this, ...args)
+}
 

@@ -1,4 +1,4 @@
-import {assets} from './assets.js'
+import {assets} from './_assets.js'
 
 function get_html(path) {
   if (!path.endsWith('.html')) {
