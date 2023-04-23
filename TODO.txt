@@ -1,0 +1,1 @@
+Add pip file for Netlify to identify that Transcrypt has been installed.
