@@ -28,7 +28,6 @@
    <!--Bootstrap custom styles without or without Parcel.-->
    <link rel="stylesheet" href="./libs/bootstrap/custom.css">
    
- 
   <!--Transcrypt helper for use with or without Parcel.-->
   <!--
   <script type="module" src="./js/premain.js"></script>
@@ -40,17 +39,18 @@
   -->
 
   <!--Brython.-->
-  <!--
   <script type="text/javascript" src="./libs/brython/brython.js"></script>
   <script type="text/javascript" src="./libs/brython/brython_stdlib.js"></script>
-  -->
+  <script type="text/python" src="./bry/main.py"></script>
+  <!-- -->
+
   
   <script type="module" src="./js/main.js"></script>
 
 </head>
 <!--For use with Brython.-->
-<!--<body onload="brython(1)">-->
-<body>
+<body onload="brython(1)">
+
 
   <div id="appGoesHere">
     <button class="btn">Bootstrap button</button>

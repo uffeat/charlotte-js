@@ -1,4 +1,22 @@
-import { get_html } from "../assets/html.js";
+import {assets} from '../assets/_assets.js'
+
+/** */
+function get_html(arg) {
+  if (arg.trim().startsWith('<')) {
+    // `arg` is already HTML
+    return arg
+  }
+  if (!arg.endsWith('.html')) {
+    arg = `${arg}.html`
+  }
+  if (!(arg in assets)) {
+    throw new TypeError(`Invalid assets path: ${arg}.`)
+  }
+  return assets[arg]
+}
+
+window.get_html = get_html
+
 
 Element.prototype.get = Element.prototype.querySelector;
 Element.prototype.get_all = Element.prototype.querySelectorAll;
@@ -50,7 +68,7 @@ class _Element {
       element.attach_shadow({ html, sheets });
     } else {
       if (html) {
-        element.innerHTML = html;
+        element.innerHTML = get_html(html);
       }
     }
 
@@ -79,6 +97,7 @@ class _Element {
   create_from_html(html, parent = null, shadow = false) {
     // Creates HTML element from 'outer' HTML with options,
     // add to parent and attach shadow root.
+    html = get_html(html);
     let element;
 
     if (shadow) {
