@@ -1,0 +1,28 @@
+Please give me a JS version of the Python script below. 
+Please keep the snake case for the function name.
+Please add the docstring as a JSDoc style comment above the function.
+Finally, below the function, please add code that adds the function as a method of
+the HTMLElement prototype.
+Please also let me know if you detect any mistakes.
+
+def attach_shadow(this, kwargs: dict):
+    """Atteches a shadow root to `this` (HTML element)."""
+    kwargs = dict(kwargs)
+    # "Deconstruct" `kwargs`:
+    delegates_focus = kwargs.get("delegates_focus", False)
+    html = kwargs.get("html")  # HTML string - or None.
+    sheets = kwargs.get("sheets")  # List of "path" keys in `_assets`
+
+    shadow_root = this.attachShadow(dict(mode="open", delegatesFocus=delegates_focus))
+    # Add short-hands:
+    shadow_root.get = shadow_root.querySelector
+    shadow_root.get_all = shadow_root.querySelectorAll
+    if html:
+        shadow_root.innerHTML = html
+    if sheets:
+        # `sheets` is a list (or tuple) of assets keys ("paths").
+        # Add stylesheets from `assets` to shadow root:
+        shadow_root.add_sheets(*sheets)
+    this.root = shadow_root
+    # Return `root` to respect native pattern.
+    return shadow_root
