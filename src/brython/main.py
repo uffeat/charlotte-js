@@ -1,7 +1,6 @@
 from browser import document, webcomponent
 
 
-
 class BryComp:
 
     def __init__(self):
@@ -21,4 +20,4 @@ class BryComp:
 
 webcomponent.define("x-bry", BryComp)
 
-print("From Brython")
+print("brython/main.py initialized.")

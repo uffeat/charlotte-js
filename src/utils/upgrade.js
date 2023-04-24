@@ -1,5 +1,7 @@
 import {assets} from '../assets/_assets.js'
 
+window.X = {}
+
 /** */
 function get_html(arg) {
   if (arg.trim().startsWith('<')) {
@@ -83,7 +85,6 @@ class _Element {
     if (parent) {
       // Assume that `parent` is available as a prop on `element`.
       element.parent = parent;
-      parent.append(element);
     }
 
     if (Object.keys(props).length) {
@@ -117,38 +118,17 @@ class _Element {
     }
 
     if (parent) {
-      // Assume that `parent` is available as a prop on `element`.
       element.parent = parent;
-      parent.append(element);
     }
 
     return element;
   }
 }
 
-document.element = new _Element();
+window.X['element'] = new _Element();
 
-// TODO: PURGE
 
-document.create_element = function (tagArg, props, ...children) {
-  const [tag, ...classes] = tagArg.split(".");
-  const element = document.createElement(tag);
-  classes.forEach((c) => element.classList.add(c));
-  element.update_props(props);
 
-  children.forEach((child) => {
-    if (typeof child === "string") {
-      element.insertAdjacentHTML("beforeend", child);
-    } else {
-      if (Array.isArray(child)) {
-        element[child[0]] = child[1];
-        child = child[1];
-      }
-      element.append(child);
-    }
-  });
-  return element;
-};
 
 // COMPONENT CREATION
 
@@ -243,10 +223,25 @@ class _Component {
    * @param {*} parent - The parent element for the component.
    * @returns {Element}
    */
-  create(tag, item = null, parent = null) {
+  create(tag, kwargs = {}) {
     if (!tag.startsWith("x-")) {
       tag = `x-${tag}`;
     }
+
+    
+
+    kwargs = { ...kwargs };
+    // Destructure.
+    const { item = null, parent = null } = kwargs;
+
+
+    console.log(`Creating component with item: ${item}`)
+
+
+
+
+
+
 
     if (!window.customElements.get(tag)) {
       throw new Error(`No component registered with tag \`${tag}\`.`);
@@ -296,7 +291,7 @@ class _Component {
   }
 }
 
-document.component = new _Component();
+window.X['component'] = new _Component();
 
 // STRUCTURE.
 
