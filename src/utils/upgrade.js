@@ -157,9 +157,15 @@ class _Element {
     return element;
   }
 
-  createFromHtml(html, parent = null, shadow = false) {
+  createFromHtml(html, kwargs = {}) {
     // Creates HTML element from 'outer' HTML with options,
     // add to parent and attach shadow root.
+
+    const [parent, shadow = false] = X.getArgs(kwargs, "parent", "shadow");
+
+
+
+
     html = getHtml(html);
     let element;
 
@@ -286,6 +292,9 @@ class _Component {
     if (!tag.startsWith("x-")) {
       tag = `x-${tag}`;
     }
+
+
+    ////////////
     // Destructure.
     const { item = null, parent = null } = checkKwargs(kwargs, 'item', 'parent');
 

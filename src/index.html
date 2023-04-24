@@ -1,44 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sandbox</title>
-  <link rel="shortcut icon" href="#" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sandbox</title>
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
 
-  <!--Extend prototypes and add aliases.-->
-  <script type="module" src="./utils/upgrade.js"></script>
+    <!--Extend prototypes and add aliases.-->
+    <script type="module" src="./utils/upgrade.js"></script>
 
-   <!--UiKit (not npm-installed).-->
-   <link rel="stylesheet" href="./libs/uikit/core.css">
-   <link rel="stylesheet" href="./libs/uikit/custom.css">
-   <script src="./libs/uikit/core.js"></script>
-   <script src="./libs/uikit/icons.js"></script>
-   
-   <!--Bootstrap for use WITH Parcel.-->
-   <link rel="stylesheet" href="scss/styles.scss">
-  
+    <!--UiKit (not npm-installed).-->
+    <link rel="stylesheet" href="./libs/uikit/core.css" />
+    <link rel="stylesheet" href="./libs/uikit/custom.css" />
+    <script src="./libs/uikit/core.js"></script>
+    <script src="./libs/uikit/icons.js"></script>
 
-   <!--Bootstrap custom styles without or without Parcel.-->
-   <link rel="stylesheet" href="./libs/bootstrap/custom.css">
-   
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="scss/styles.scss" />
+    <link rel="stylesheet" href="./libs/bootstrap/custom.css" />
 
+    <!--Transcrypt.-->
+    <script type="module" src="./python_transcrypt/main.py"></script>
 
-  <!--Transcrypt for use WITH Parcel.-->
-  <script type="module" src="./python_transcrypt/main.py"></script>
-  
-
-
-
-  
-  <script type="module" src="./js/main.js"></script>
-
-</head>
-<body>
-
-
-  <div id="appGoesHere"></div>
-  
-</body>
+    <script type="module" src="./js/main.js"></script>
+  </head>
+  <body>
+    <div id="appGoesHere"></div>
+  </body>
 </html>

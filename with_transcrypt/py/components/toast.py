@@ -1,0 +1,4 @@
+def toast():
+    print("TOAST!")
+    
+

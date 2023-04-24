@@ -2,14 +2,14 @@
 import * as bootstrap from 'bootstrap'
 
 // Access Transcrypt transpiled stuff (Parcel).
-import * as main from '../../.build/main.js'
+import * as py from '../../.build/main.js'
 
 // Init regular web components.
 import * as _alert from "../components/components/alert.js";
 
 // Test Transcrypt stuff.
-main.toast.toast("hello", true)
-//main.modal.modal()
+py.toast.toast("hello", true)
+//py.modal.modal()
 
 
 const alert1 = X.element.create("x-alert", {

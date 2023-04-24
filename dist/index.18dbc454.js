@@ -557,13 +557,27 @@ function hmrAccept(bundle, id) {
 }
 
 },{}],"1SICI":[function(require,module,exports) {
-// Import all of Bootstrap's JS
+// Import all of Bootstrap's JS (for use WITH Parcel)
 var _bootstrap = require("bootstrap");
+// Access Transcrypt transpiled stuff (Parcel).
 var _mainJs = require("../../.build/main.js");
+// Init regular web components.
+var _alertJs = require("../components/components/alert.js");
+// Test Transcrypt stuff.
 _mainJs.toast.toast("hello", true);
-_mainJs.modal.modal();
+//py.modal.modal()
+const alert1 = X.element.create("x-alert", {
+    content: "Some content...",
+    headline: "Cool headline",
+    styleName: "primary",
+    parent: document.root
+});
+alert1.showAlert("New content", {
+    headline: "New headline",
+    styleName: "danger"
+});
 
-},{"bootstrap":"h36JB","../../.build/main.js":"ksBEn"}],"h36JB":[function(require,module,exports) {
+},{"bootstrap":"h36JB","../../.build/main.js":"ksBEn","../components/components/alert.js":"l8YyR"}],"h36JB":[function(require,module,exports) {
 /*!
   * Bootstrap v5.2.3 (https://getbootstrap.com/)
   * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
@@ -6260,6 +6274,181 @@ var createPopper = /*#__PURE__*/ (0, _createPopperJs.popperGenerator)({
     defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
-},{"./createPopper.js":"cHuNp","./modifiers/eventListeners.js":"hBKsL","./modifiers/popperOffsets.js":"6I679","./modifiers/computeStyles.js":"gDlm2","./modifiers/applyStyles.js":"4iMn4","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9tRox","1SICI"], "1SICI", "parcelRequireca93")
+},{"./createPopper.js":"cHuNp","./modifiers/eventListeners.js":"hBKsL","./modifiers/popperOffsets.js":"6I679","./modifiers/computeStyles.js":"gDlm2","./modifiers/applyStyles.js":"4iMn4","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l8YyR":[function(require,module,exports) {
+var _mixinJs = require("../../utils/mixin.js");
+var _itemJs = require("../mixins/item.js");
+var _subsJs = require("../compositions/subs.js");
+var _rootJs = require("../compositions/root.js");
+var _classesJs = require("../../libs/bootstrap/utils/classes.js");
+class Alert extends (0, _mixinJs.mixin)(HTMLElement) {
+    #styleName;
+    constructor(){
+        ////console.log(`Alert constructor invoked.`);
+        super();
+        (0, _rootJs.composeRoot)(this, {
+            html: "alert",
+            cssClasses: [
+                "alert"
+            ]
+        });
+        (0, _subsJs.composeSubs)(this);
+        // Set defaults.
+        this.styleName = "info";
+    }
+    connectedCallback() {
+        //console.log(`connectedCallback invoked for Alert.`);
+        this.addRoot();
+    }
+    get content() {
+        return this.subs.content.text;
+    }
+    set content(content) {
+        this.subs.content.text = content;
+    }
+    get headline() {
+        return this.subs.headline.text;
+    }
+    set headline(headline) {
+        this.subs.headline.text = headline;
+    }
+    get styleName() {
+        return this.#styleName;
+    }
+    set styleName(styleName) {
+        this.#styleName = styleName;
+        (0, _classesJs.setStyle)(this.root, "alert", styleName);
+    }
+    showAlert(content, kwargs = {}) {
+        const [headline, styleName] = X.getArgs(kwargs, "headline", "styleName");
+        this.content = content;
+        if (headline) this.headline = headline;
+        if (styleName) this.styleName = styleName;
+        this.show();
+    }
+}
+window.customElements.define("x-alert", Alert);
+
+},{"../../utils/mixin.js":"juhnz","../mixins/item.js":"4pveP","../compositions/subs.js":"lGhXc","../compositions/root.js":"5TJd6","../../libs/bootstrap/utils/classes.js":"36FtP"}],"juhnz":[function(require,module,exports) {
+/* Returns a composite class with an inheritance hierarchy derived from Base and Mixin functions. */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "mixin", ()=>mixin);
+const mixin = (BaseClass, ...mixins)=>{
+    if (mixins.length === 0) return BaseClass;
+    let CompositeClass;
+    // Ensure that constructor of first added mixin class is invoked first.
+    // NOTE: Subsequently added mixin classes can overload previously added mixin classes.
+    mixins = mixins.reverse();
+    // Create first composite class (extended from BaseClass):
+    CompositeClass = mixins[0](BaseClass);
+    // Successively update composite class (extended from previous version of composite class):
+    for(let index = 1; index < mixins.length; index++)CompositeClass = mixins[index](CompositeClass);
+    return CompositeClass;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4pveP":[function(require,module,exports) {
+/** */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ItemMixin", ()=>ItemMixin);
+const ItemMixin = (Parent)=>{
+    class Item extends Parent {
+        /** */ constructor(){
+            //console.log(`Item constructor invoked.`);
+            super();
+        }
+        /** */ get item() {
+            return this._item;
+        }
+        /** */ set item(item) {
+            this._item = item;
+            this.render && this.render();
+        }
+    }
+    return Item;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lGhXc":[function(require,module,exports) {
+/** */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "composeSubs", ()=>composeSubs);
+function composeSubs(component) {
+    let source;
+    if (component.root) source = component.root;
+    else source = component;
+    const subs = {};
+    const xElements = source.querySelectorAll(`*[data-x]`);
+    xElements.forEach((element)=>{
+        subs[element.dataset.x] = element;
+    });
+    component.subs = subs;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5TJd6":[function(require,module,exports) {
+/** */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "composeRoot", ()=>composeRoot);
+function composeRoot(component, kwargs = {}) {
+    // Create shallow copy of kwargs.
+    kwargs = {
+        ...kwargs
+    };
+    // Destructure.
+    const { cssClasses =[] , html =null  } = kwargs;
+    component.root = X.element.create(`div.root`);
+    cssClasses.forEach((cssClass)=>component.root.classList.add(cssClass));
+    if (html) component.root.innerHTML = X.getHtml(html);
+    component.addRoot = function() {
+        if (!this.contains(this.root)) this.append(this.root);
+    };
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"36FtP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "pageClasses", ()=>pageClasses);
+parcelHelpers.export(exports, "getColClasses", ()=>getColClasses);
+parcelHelpers.export(exports, "clearStyles", ()=>clearStyles);
+parcelHelpers.export(exports, "setStyle", ()=>setStyle);
+const styles = [
+    "primary",
+    "secondary",
+    "danger",
+    "info",
+    "success",
+    "warning",
+    "light",
+    "dark"
+];
+const pageClasses = [
+    "container",
+    "max-width-lg",
+    "my-3"
+];
+/** Returns a list of CSS 'col' classes by index. */ function getColClasses(index = null) {
+    // TODO: Expand `classes` with indices 1-5.
+    const classes = {
+        3: [
+            "col-md-6",
+            "col-lg-4"
+        ]
+    };
+    if (index) return classes[index];
+    return Object.values(classes);
+}
+/** Validates `style`. */ function _validateStyle(style) {
+    if (!styles.includes(style)) throw new Error(`Invalid style: ${style}. Valid styles: ${styles.join(", ")}.`);
+}
+/** Removes all prefixed style classes from `element`. */ function clearStyles(element, prefix) {
+    styles.forEach((s)=>{
+        element.classList.remove(`${prefix}-${s}`);
+    });
+}
+/** Adds a prefixed style class to `element`.
+Optional default clears prefixed style classes first. */ function setStyle(element, prefix, style, clear = true) {
+    _validateStyle(style);
+    if (clear) clearStyles(element, prefix);
+    element.classList.add(`${prefix}-${style}`);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9tRox","1SICI"], "1SICI", "parcelRequireca93")
 
 //# sourceMappingURL=index.18dbc454.js.map

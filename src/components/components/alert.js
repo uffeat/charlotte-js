@@ -16,7 +16,7 @@ class Alert extends mixin(HTMLElement) {
   }
 
   connectedCallback() {
-    console.log(`connectedCallback invoked for Alert.`);
+    //console.log(`connectedCallback invoked for Alert.`);
     this.addRoot();
   }
 
