@@ -1,33 +1,32 @@
-import {assets} from '../assets/_assets.js'
+import { assets } from "../assets/_assets.js";
 
-window.X = {}
+window.X = {};
 
 /** */
-function get_html(arg) {
-  if (arg.trim().startsWith('<')) {
+function getHtml(arg) {
+  if (arg.trim().startsWith("<")) {
     // `arg` is already HTML
-    return arg
+    return arg;
   }
-  if (!arg.endsWith('.html')) {
-    arg = `${arg}.html`
+  if (!arg.endsWith(".html")) {
+    arg = `${arg}.html`;
   }
   if (!(arg in assets)) {
-    throw new TypeError(`Invalid assets path: ${arg}.`)
+    throw new TypeError(`Invalid assets path: ${arg}.`);
   }
-  return assets[arg]
+  return assets[arg];
 }
 
-window.get_html = get_html
-
+window.X.getHtml = getHtml;
 
 Element.prototype.get = Element.prototype.querySelector;
-Element.prototype.get_all = Element.prototype.querySelectorAll;
+Element.prototype.getAll = Element.prototype.querySelectorAll;
 
 ShadowRoot.prototype.get = ShadowRoot.prototype.querySelector;
-ShadowRoot.prototype.get_all = ShadowRoot.prototype.querySelectorAll;
+ShadowRoot.prototype.getAll = ShadowRoot.prototype.querySelectorAll;
 
 document.get = document.querySelector;
-document.get_all = document.querySelectorAll;
+document.getAll = document.querySelectorAll;
 
 document.root = document.getElementById("appGoesHere");
 
@@ -67,10 +66,10 @@ class _Element {
       // If `shadow` is a list or a tuple, it contains stylesheet `assets` keys (strings).
       const sheets = Array.isArray(shadow) ? shadow : null;
 
-      element.attach_shadow({ html, sheets });
+      element.addShadow({ html, sheets });
     } else {
       if (html) {
-        element.innerHTML = get_html(html);
+        element.innerHTML = getHtml(html);
       }
     }
 
@@ -83,29 +82,31 @@ class _Element {
     }
 
     if (parent) {
-      // Assume that `parent` is available as a prop on `element`.
       element.parent = parent;
     }
 
     if (Object.keys(props).length) {
-      // Assume that `Object.assign` is available as a method on `element`.
+      
+      //
       Object.assign(element, props);
+
+
     }
 
     return element;
   }
 
-  create_from_html(html, parent = null, shadow = false) {
+  createFromHtml(html, parent = null, shadow = false) {
     // Creates HTML element from 'outer' HTML with options,
     // add to parent and attach shadow root.
-    html = get_html(html);
+    html = getHtml(html);
     let element;
 
     if (shadow) {
       element = document.createElement("div");
       // If `shadow` is a list or a tuple, it contains stylesheet `assets` keys (strings).
       const sheets = Array.isArray(shadow) ? shadow : null;
-      element.attach_shadow({ html, sheets });
+      element.addShadow({ html, sheets });
     } else {
       const temp = document.createElement("div");
       temp.innerHTML = html;
@@ -125,10 +126,7 @@ class _Element {
   }
 }
 
-window.X['element'] = new _Element();
-
-
-
+window.X["element"] = new _Element();
 
 // COMPONENT CREATION
 
@@ -140,7 +138,7 @@ class _Component {
     class Cache {
       constructor() {
         // `this._registry` informs intent to cache/use cache and holds cache key func.
-        this._registry = {}; // {tag: key_func, tag: key_func, ...}
+        this._registry = {}; // {tag: keyFunc, tag: keyFunc, ...}
 
         // `this._storage` is actual cache.
         this._storage = {}; // {key: component, key: component, ...}
@@ -149,19 +147,19 @@ class _Component {
       /**
        * Registers component (by tag) for caching along with key function.
        * @param {string} tag - The tag name of the component.
-       * @param {Function} key_func - The function that generates a component identifier from `item`.
+       * @param {Function} keyFunc - The function that generates a component identifier from `item`.
        */
-      register(tag, key_func) {
+      register(tag, keyFunc) {
         // Checks.
         if (!tag.startsWith("x-")) {
           tag = `x-${tag}`;
         }
-        if (typeof key_func !== "function") {
+        if (typeof keyFunc !== "function") {
           throw new TypeError("Second arg in `register` must be a function.");
         }
 
-        // Store "tag: key_func" in registry.
-        this._registry[tag] = key_func;
+        // Store "tag: keyFunc" in registry.
+        this._registry[tag] = keyFunc;
         console.log(`Component \`${tag}\` registered for caching.`);
       }
 
@@ -178,12 +176,12 @@ class _Component {
        * Stores component in cache.
        * @param {Element} component - The component to store in cache.
        */
-      _store_component(component) {
+      _storeComponent(component) {
         // Normalize tag.
         const tag = component.tagName.toLowerCase();
 
         const item = component.item;
-        const key = this._gen_key(tag, item);
+        const key = this._genKey(tag, item);
         this._storage[key] = component;
         console.log(
           `Stored \`${tag}\` component in cache with key \`${key}\`.`
@@ -196,8 +194,8 @@ class _Component {
        * @param {*} item - The item used to generate the cache key.
        * @returns {Element|null}
        */
-      _get_component(tag, item) {
-        const key = this._gen_key(tag, item);
+      _getComponent(tag, item) {
+        const key = this._genKey(tag, item);
         return this._storage.hasOwnProperty(key) ? this._storage[key] : null;
       }
 
@@ -207,9 +205,9 @@ class _Component {
        * @param {*} item - The item used to generate the cache key.
        * @returns {string}
        */
-      _gen_key(tag, item) {
-        const key_func = this._registry[tag];
-        const key = `${tag}_${key_func(item)}`;
+      _genKey(tag, item) {
+        const keyFunc = this._registry[tag];
+        const key = `${tag}_${keyFunc(item)}`;
         return key;
       }
     }
@@ -228,20 +226,11 @@ class _Component {
       tag = `x-${tag}`;
     }
 
-    
-
     kwargs = { ...kwargs };
     // Destructure.
     const { item = null, parent = null } = kwargs;
 
-
-    console.log(`Creating component with item: ${item}`)
-
-
-
-
-
-
+    console.log(`Creating component with item: ${item}`);
 
     if (!window.customElements.get(tag)) {
       throw new Error(`No component registered with tag \`${tag}\`.`);
@@ -254,7 +243,7 @@ class _Component {
           `Cache-registered component \`${tag}\` must be created with \`item\`.`
         );
       }
-      const component = this.cache._get_component(tag, item);
+      const component = this.cache._getComponent(tag, item);
       if (component) {
         // Component found in cache store.
         console.log(`Using cached component \`${tag}\`.`);
@@ -281,7 +270,7 @@ class _Component {
           `Cannot store component \`${tag}\` in cache without \`item\` set.`
         );
       }
-      this.cache._store_component(component);
+      this.cache._storeComponent(component);
     }
 
     if (parent) {
@@ -291,7 +280,7 @@ class _Component {
   }
 }
 
-window.X['component'] = new _Component();
+window.X["component"] = new _Component();
 
 // STRUCTURE.
 
@@ -340,8 +329,8 @@ HTMLElement.prototype.clear = function (slot) {
  * @param {Array} [kwargs.sheets=null] - An array of asset keys to add as stylesheets to the shadow root.
  * @returns {ShadowRoot} The newly created shadow root.
  */
-function attach_shadow(kwargs = {}) {
-  // Create shallow copy kwargs object. Ensures that original object passed as a parameter remains unchanged; 
+function addShadow(kwargs = {}) {
+  // Create shallow copy kwargs object. Ensures that original object passed as a parameter remains unchanged;
   // useful in preventing unintended side effects.
   kwargs = { ...kwargs };
   // Destructure.
@@ -352,10 +341,6 @@ function attach_shadow(kwargs = {}) {
     delegatesFocus: delegates_focus,
   });
 
-  // Add short-hands:
-  shadow_root.get = shadow_root.querySelector;
-  shadow_root.get_all = shadow_root.querySelectorAll;
-
   if (html) {
     shadow_root.innerHTML = html;
   }
@@ -363,7 +348,7 @@ function attach_shadow(kwargs = {}) {
   if (sheets) {
     // `sheets` is an array of assets keys ("paths").
     // Add stylesheets from `_assets` to shadow root:
-    shadow_root.add_sheets(...sheets);
+    shadow_root.addSheets(...sheets);
   }
 
   this.root = shadow_root;
@@ -372,16 +357,16 @@ function attach_shadow(kwargs = {}) {
   return shadow_root;
 }
 
-// Add `attach_shadow` as a method of `HTMLElement.prototype`.
-HTMLElement.prototype.attach_shadow = attach_shadow;
+// Add `addShadow` as a method of `HTMLElement.prototype`.
+HTMLElement.prototype.addShadow = addShadow;
 
 // PROPS.
 
 /** Updates element and element.style properties. */
-HTMLElement.prototype.update_props = function (props) {
+HTMLElement.prototype.updateProps = function (props) {
   if (props && Object.keys(props).length >= 0) {
     for (const [prop, value] of Object.entries(props)) {
-      // Allow new private props.
+      // Allow new private prop.
       if (prop.startsWith("_")) {
         this[prop] = value;
       } else if (prop in this) {
@@ -413,16 +398,16 @@ Object.defineProperty(Node.prototype, "text", {
  * @param {...string} paths - The paths of the stylesheets to add.
  * @throws {KeyError} If an invalid assets path is provided.
  */
-function add_sheets(...paths) {
+function addSheets(...paths) {
   for (const path of paths) {
     if (!path.endsWith(".css")) {
       path = `${path}.css`;
     }
     // `_assets` is an object with `path` keys and CSS text as values.
-    if (!(path in _assets)) {
+    if (!(path in assets)) {
       throw new Error(`Invalid assets path: \`${path}\`.`);
     }
-    const css_text = _assets.get(path);
+    const css_text = assets[path];
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(css_text);
     this.adoptedStyleSheets = [...this.adoptedStyleSheets, sheet];
@@ -432,9 +417,9 @@ function add_sheets(...paths) {
   }
 }
 
-// Add `add_sheets` as a method of `ShadowRoot.prototype` and `document`.
-ShadowRoot.prototype.add_sheets = add_sheets;
-document.add_sheets = add_sheets;
+// Add `addSheets` as a method of `ShadowRoot.prototype` and `document`.
+ShadowRoot.prototype.addSheets = addSheets;
+document.addSheets = addSheets;
 
 // COMPOSITION
 

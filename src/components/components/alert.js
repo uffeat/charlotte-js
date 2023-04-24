@@ -1,17 +1,21 @@
 import {mixin} from '../../utils/mixin.js'
 import { ItemMixin } from "../mixins/item.js";
+import { RootMixin } from '../mixins/root.js';
+import { SubsMixin } from '../mixins/subs.js';
 
 
-class Alert extends mixin(HTMLElement, ItemMixin) {
+class Alert extends mixin(HTMLElement, RootMixin, SubsMixin, ItemMixin) {
   constructor() {
     console.log(`constructor invoked for Alert.`);
     super();
-    this.root = X.element.create('div.root')
+    this.createRoot({html: 'alert'})
+    this.buildSubs()
+    this.subs.headline.text = "Awesome"
   }
 
   connectedCallback() {
     console.log(`connectedCallback invoked for Alert.`);
-    if (!(this.contains(this.root))) {this.append(this.root)}
+    this.addRoot()
   }
 
   render() {

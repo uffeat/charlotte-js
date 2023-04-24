@@ -3,7 +3,7 @@ const ItemMixin = (Parent) => {
   class Item extends Parent {
     /** */
     constructor() {
-      console.log(`constructor invoked for Item.`);
+      console.log(`Item constructor invoked.`);
       super();
     }
 

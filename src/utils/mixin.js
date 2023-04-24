@@ -1,13 +1,18 @@
 /* Returns a composite class with an inheritance hierarchy derived from Base and Mixin functions. */
-const mixin = (BaseClass, ...Mixins) => {
+const mixin = (BaseClass, ...mixins) => {
   let CompositeClass;
+  // Ensure that constructor of first added mixin class is invoked first.
+  // NOTE: Subsequently added mixin classes can overload previously added mixin classes.
+  mixins = mixins.reverse();
 
   // Create first composite class (extended from BaseClass):
-  CompositeClass = Mixins[0](BaseClass);
+  CompositeClass = mixins[0](BaseClass);
+
+  
 
   // Successively update composite class (extended from previous version of composite class):
-  for (let index = 1; index < Mixins.length; index++) {
-    CompositeClass = Mixins[index](CompositeClass);
+  for (let index = 1; index < mixins.length; index++) {
+    CompositeClass = mixins[index](CompositeClass);
   }
   return CompositeClass;
 };
