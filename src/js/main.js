@@ -1,16 +1,24 @@
 // Import all of Bootstrap's JS (for use WITH Parcel)
-//import * as bootstrap from 'bootstrap'
+import * as bootstrap from 'bootstrap'
 
-// Access Transcrypt transpiled stuff (Parcel):
-/*
+// Access Transcrypt transpiled stuff (Parcel).
 import * as main from '../../.build/main.js'
+
+// Init regular web components.
+import * as _alert from "../components/components/alert.js";
+
+// Test Transcrypt stuff.
 main.toast.toast("hello", true)
-main.modal.modal()
-*/
-import * as _alert from '../components/components/alert.js'
+//main.modal.modal()
 
 
-//const bry_element = X.element.create("x-bry", {parent: document.root})
+const alert1 = X.element.create("x-alert", {
+  content: "Some content...",
+  headline: "Cool headline",
+  styleName: 'primary',
+  parent: document.root,
+});
 
-const alert1 = X.element.create("x-alert", {content: "Some content...", parent: document.root})
+alert1.showAlert('New content', {headline: 'New headline', styleName: 'danger'})
+
 

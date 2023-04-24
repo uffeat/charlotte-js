@@ -25,11 +25,16 @@ class Alert extends mixin(HTMLElement) {
   }
 
   set content(content) {
-    console.log(`content setter got: ${content}`)
-    this.subs.content.text = content
+    this.subs.content.text = content;
   }
 
+  get headline() {
+    return this.subs.headline.text;
+  }
 
+  set headline(headline) {
+    this.subs.headline.text = headline;
+  }
 
   get styleName() {
     return this.#styleName;
@@ -38,6 +43,14 @@ class Alert extends mixin(HTMLElement) {
   set styleName(styleName) {
     this.#styleName = styleName;
     setStyle(this.root, "alert", styleName);
+  }
+
+  showAlert(content, kwargs = {}) {
+    const [headline, styleName] = X.getArgs(kwargs, "headline", "styleName");
+    this.content = content;
+    if (headline) this.headline = headline;
+    if (styleName) this.styleName = styleName;
+    this.show();
   }
 }
 

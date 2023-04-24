@@ -1,6 +1,23 @@
 import { assets } from "../assets/_assets.js";
 
+// ALIASES
+
+Element.prototype.get = Element.prototype.querySelector;
+Element.prototype.getAll = Element.prototype.querySelectorAll;
+
+ShadowRoot.prototype.get = ShadowRoot.prototype.querySelector;
+ShadowRoot.prototype.getAll = ShadowRoot.prototype.querySelectorAll;
+
+document.get = document.querySelector;
+document.getAll = document.querySelectorAll;
+
+document.root = document.getElementById("appGoesHere");
+
+// X
+
 window.X = {};
+
+// Html
 
 /** */
 function getHtml(arg) {
@@ -19,28 +36,62 @@ function getHtml(arg) {
 
 window.X.getHtml = getHtml;
 
-Element.prototype.get = Element.prototype.querySelector;
-Element.prototype.getAll = Element.prototype.querySelectorAll;
-
-ShadowRoot.prototype.get = ShadowRoot.prototype.querySelector;
-ShadowRoot.prototype.getAll = ShadowRoot.prototype.querySelectorAll;
-
-document.get = document.querySelector;
-document.getAll = document.querySelectorAll;
-
-document.root = document.getElementById("appGoesHere");
+// Function tools
 
 const checkKwargs = (kwargs, ...validKeys) => {
   if (kwargs) {
-    const invalidKeys = Object.keys(kwargs).filter(key => !validKeys.includes(key))
-    if (invalidKeys.length > 0) {
-      throw Error(`Invalid arg: ${invalidKeys}.`)
+    if (validKeys.length > 0) {
+      // Check keys.
+      const invalidKeys = Object.keys(kwargs).filter(key => !validKeys.includes(key))
+      if (invalidKeys.length > 0) {
+        throw Error(`Invalid arg: ${invalidKeys}.`)
+      }
     }
+    // Return shallow copy of kwargs.
     return { ...kwargs };
   }
 }
 
-// ELEMENT CREATION.
+window.X.checkKwargs = checkKwargs;
+
+
+const getArgs = (kwargs, ...keys) => {
+  if (!kwargs) return
+  if (keys.length === 0) return
+   // Operate on shallow copy of kwargs.
+  kwargs = { ...kwargs };
+  
+  // Check keys.
+  const invalidKeys = Object.keys(kwargs).filter(key => !keys.includes(key))
+  if (invalidKeys.length > 0) {
+    throw Error(`Invalid arg: ${invalidKeys}.`)
+  }
+  return keys.map(key => kwargs[key])
+}
+
+window.X.getArgs = getArgs;
+
+
+// Promise tools
+
+const createPromise = (executor) => {
+  return new Promise(executor);
+}
+
+window.X.createPromise = createPromise;
+
+const createAndAwaitPromise = async (executor) => {
+  return await createPromise(executor);
+}
+
+window.X.createAndAwaitPromise = createAndAwaitPromise;
+
+
+
+
+
+
+// Element creation.
 
 class _Element {
   create(...args) {
@@ -138,7 +189,7 @@ class _Element {
 
 window.X["element"] = new _Element();
 
-// COMPONENT CREATION
+// Component creation
 
 /**
  * Creation and caching of components (web components, i.e., custom elements).
