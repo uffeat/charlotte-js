@@ -1,31 +1,44 @@
-import {mixin} from '../../utils/mixin.js'
+import { mixin } from "../../utils/mixin.js";
 import { ItemMixin } from "../mixins/item.js";
-import { RootMixin } from '../mixins/root.js';
-import { SubsMixin } from '../mixins/subs.js';
+import { composeSubs } from "../compositions/subs.js";
+import { composeRoot } from "../compositions/root.js";
+import { setStyle } from "../../libs/bootstrap/utils/classes.js";
 
-
-class Alert extends mixin(HTMLElement, RootMixin, SubsMixin, ItemMixin) {
+class Alert extends mixin(HTMLElement) {
+  #styleName;
   constructor() {
-    console.log(`constructor invoked for Alert.`);
+    ////console.log(`Alert constructor invoked.`);
     super();
-    this.createRoot({html: 'alert'})
-    this.buildSubs()
-    this.subs.headline.text = "Awesome"
+    composeRoot(this, { html: "alert", cssClasses: ["alert"] });
+    composeSubs(this);
+    // Set defaults.
+    this.styleName = "info";
   }
 
   connectedCallback() {
     console.log(`connectedCallback invoked for Alert.`);
-    this.addRoot()
+    this.addRoot();
   }
 
-  render() {
-    console.log(`render invoked with item: ${this.item}.`);
+  get content() {
+    return this.subs.content.text;
+  }
+
+  set content(content) {
+    console.log(`content setter got: ${content}`)
+    this.subs.content.text = content
+  }
+
+
+
+  get styleName() {
+    return this.#styleName;
+  }
+
+  set styleName(styleName) {
+    this.#styleName = styleName;
+    setStyle(this.root, "alert", styleName);
   }
 }
 
-
-
-
-
-
-window.customElements.define('x-alert', Alert)
+window.customElements.define("x-alert", Alert);

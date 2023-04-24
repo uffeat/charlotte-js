@@ -30,6 +30,16 @@ document.getAll = document.querySelectorAll;
 
 document.root = document.getElementById("appGoesHere");
 
+const checkKwargs = (kwargs, ...validKeys) => {
+  if (kwargs) {
+    const invalidKeys = Object.keys(kwargs).filter(key => !validKeys.includes(key))
+    if (invalidKeys.length > 0) {
+      throw Error(`Invalid arg: ${invalidKeys}.`)
+    }
+    return { ...kwargs };
+  }
+}
+
 // ELEMENT CREATION.
 
 class _Element {
@@ -225,10 +235,8 @@ class _Component {
     if (!tag.startsWith("x-")) {
       tag = `x-${tag}`;
     }
-
-    kwargs = { ...kwargs };
     // Destructure.
-    const { item = null, parent = null } = kwargs;
+    const { item = null, parent = null } = checkKwargs(kwargs, 'item', 'parent');
 
     console.log(`Creating component with item: ${item}`);
 
@@ -421,8 +429,26 @@ function addSheets(...paths) {
 ShadowRoot.prototype.addSheets = addSheets;
 document.addSheets = addSheets;
 
-// COMPOSITION
+// COMPOSITION WITH CLASSES
 
 HTMLElement.prototype.compose = function (Composition, ...args) {
   this[Composition.name.toLowerCase()] = new Composition(this, ...args);
 };
+
+
+// SHOW/HIDE
+
+function show() {
+  this.classList.remove('d-none')
+}
+
+HTMLElement.prototype.show = show
+ShadowRoot.prototype.show = show
+
+
+function hide() {
+  this.classList.add('d-none')
+  }
+
+HTMLElement.prototype.hide = hide
+ShadowRoot.prototype.hide = hide

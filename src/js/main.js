@@ -12,5 +12,5 @@ import * as _alert from '../components/components/alert.js'
 
 //const bry_element = X.element.create("x-bry", {parent: document.root})
 
-const alert1 = X.component.create("x-alert", {item: 42, parent: document.root})
-//alert1.item = 42
+const alert1 = X.element.create("x-alert", {content: "Some content...", parent: document.root})
+
