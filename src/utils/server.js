@@ -16,6 +16,9 @@ class Server {
 
     if (response.ok) {
       const data = await response.json();
+
+      console.log(`Got data from server: ${data}`)
+
       callback && callback(data);
       return data;  // promise.
     }
