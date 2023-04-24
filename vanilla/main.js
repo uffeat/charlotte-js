@@ -2,7 +2,7 @@ import * as _alert from '../src/components/components/alert.js'
 import {showToast} from '../src/components/components/toast.js'
 import {server} from '../src/utils/server.js'
 
-server.call('test')
+server.get('test')
 
 const alert1 = X.element.create("x-alert", {
   content: "Some content...",

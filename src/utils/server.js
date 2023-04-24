@@ -1,34 +1,92 @@
+import { APIORIGIN } from "../config.js";
+
+function genSearchParams(searchObj) {
+  const urlParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(searchObj)) {
+    urlParams.set(key, value);
+  }
+  return "?" + urlParams.toString();
+}
+
+
+// TODO: DRY!!!!
+
+
 class Server {
   constructor() {
     // TODO: Caching.
-
   }
 
-  async call(name, kwargs = {}) {
-    const [callback] = X.getArgs(
+  async get(path, kwargs = {}) {
+    const [callback, pathParam, searchObj] = X.getArgs(
       kwargs,
       "callback",
+      "pathParam",
+      "searchObj"
     );
 
-    // TODO: wrap in try-catch
+    const url = `${APIORIGIN}/${path}${pathParam ? "/" + pathParam : ""}${
+      searchObj ? genSearchParams(searchObj) : ""
+    }`;
 
-    const response = await fetch(`https://charlotte.anvil.app/_/api/${name}`)
+    const request = {
+      method: "GET",
+    };
+
+  
+
+    // TODO: wrap in try-catch
+    const response = await fetch(url, request);
 
     if (response.ok) {
       const data = await response.json();
-
-      console.log(`Got data from server: ${data}`)
-
+      console.log(`Got data from server: ${JSON.stringify(data)}`);
       callback && callback(data);
-      return data;  // promise.
+      return data; // promise.
     }
-
-
-
   }
+
+
+  async post(path, data, kwargs = {}) {
+    const [callback, pathParam, searchObj] = X.getArgs(
+      kwargs,
+      "callback",
+      "pathParam",
+    );
+
+    const url = `${APIORIGIN}/${path}${pathParam ? "/" + pathParam : ""}`;
+
+    const request = {
+      method: "POST",
+      body: JSON.stringify(data),
+    };
+
+  
+    // TODO: wrap in try-catch
+    const response = await fetch(url, request);
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`Got data from server: ${JSON.stringify(data)}`);
+      callback && callback(data);
+      return data; // promise.
+    }
+  }
+
+
+
+  
 }
 
-///////
+/*
+    const r = await fetch(`https://ufferat.pythonanywhere.com/test`)
+    if (r.ok) {
+      const d = await r.json();
+      console.log(`Got data from Flask server: ${JSON.stringify(d)}`)
+    }
+    */
+
+/*
 const getData = async (query, callback) => {
   const response = await fetch(`https://snubert.dev/_/api/get-data?${query}`)
     if (response.ok) {
@@ -38,15 +96,11 @@ const getData = async (query, callback) => {
     }
      //TODO: Handle errors.
 }
+*/
 
-const server = new Server()
+const server = new Server();
 
-export {server}
-
-
-
-
-
+export { server };
 
 /*
 How to use
