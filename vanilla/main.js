@@ -5,9 +5,26 @@ import {server} from '../src/utils/server.js'
 
 server.get('test')
 
-const nav1 = X.element.create("x-nav", {
+const nav1 = X.element.create("x-nav", {vertical: true,
   parent: document.root,
 });
+
+nav1.links.add('first_link',{text: 'First link'})
+nav1.links.add('second_link',{text: 'Second link'})
+nav1.links.add('third_link',{text: 'Third link'})
+
+nav1.links.active = 'second_link'
+
+nav1.links.disable('third_link')
+nav1.links.enable('third_link')
+nav1.links.hide('third_link')
+nav1.links.show('third_link')
+
+nav1.addEventListener('x-active-change', event => {
+  console.log(`New active link: ${event.detail.name}`)
+})
+
+
 
 const alert1 = X.element.create("x-alert", {
   content: "Some content...",

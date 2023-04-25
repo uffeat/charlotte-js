@@ -469,30 +469,38 @@ function addSheets(...paths) {
     }
     const cssText = assets[path];
     const sheet = new CSSStyleSheet();
-    //sheet.replaceSync(cssText);
-    sheet.replace(cssText);
-
-    console.log(`sheet \`${sheet}\`.`);
-
-
+    sheet.replaceSync(cssText);
+    //sheet.replace(cssText);
     this.adoptedStyleSheets = [...this.adoptedStyleSheets, sheet];
-    if (this === document) {
-      console.log(`Added stylesheet \`${path}\` to document.`);
-    } else {
-      console.log(`Added stylesheet \`${path}\` to shadow root.`);
-    }
   }
 }
 
-// Add `addSheets` as a method of `ShadowRoot.prototype` and `document`.
+// Add `addSheets` as a method of `ShadowRoot.prototype`.
 ShadowRoot.prototype.addSheets = addSheets;
-document.addSheets = addSheets;
+// NOTE: Could be expanded to also work for document (would probably need to bind).
+
+/** Useful for adding small component-specific css snippets to document. 
+ * Should be invoked from component module. */
+document.addCss = (cssText) => {
+  const sheet = new CSSStyleSheet();
+  sheet.replaceSync(cssText);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+}
 
 
+function addClasses(...classes) {
+  classes.forEach(c => this.classList.add(c))
+}
 
+function removeClasses(...classes) {
+  classes.forEach(c => this.classList.remove(c))
+}
 
+HTMLElement.prototype.addClasses = addClasses;
+ShadowRoot.prototype.addClasses = addClasses;
 
-
+HTMLElement.prototype.removeClasses = removeClasses;
+ShadowRoot.prototype.removeClasses = removeClasses;
 
 
 // COMPOSITION WITH CLASSES

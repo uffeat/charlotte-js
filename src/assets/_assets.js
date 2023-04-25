@@ -5,7 +5,7 @@ export const assets = {
   "dropdown.html": "",
   "form.html": "<form novalidate class=\"row g-3 mb-3\" data-name=\"form\"></form>\n<x-alert data-name=\"alert\"></x-alert>\n<div class=\"mb-3 d-none\" data-name=\"slot\"></div>\n<menu class=\"mt-2 d-flex column-gap-2\" data-name=\"menu\"></menu>\n",
   "modal.html": "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n    <div class=\"modal-header\">\n      <h1 class=\"modal-title fs-5\"></h1>\n      <button\n        type=\"button\"\n        class=\"btn-close\"\n        aria-label=\"Close\"\n      ></button>\n    </div>\n    <div class=\"modal-body\"></div>\n    <div class=\"modal-footer\"></div>\n  </div>\n</div>\n",
-  "nav.html": "<nav class=\"nav flex-column\">\n  <a class=\"nav-link active\" aria-current=\"page\" href=\"#\">Active</a>\n  <a class=\"nav-link\" href=\"#\">Link</a>\n  <a class=\"nav-link\" href=\"#\">Link</a>\n  <a class=\"nav-link disabled\">Disabled</a>\n</nav>",
+  "nav.html": "<nav class=\"nav\" data-x=\"nav\">\n  <slot data-x=\"slot\"></slot>\n</nav>\n",
   "offcanvas.html": "",
   "popover.html": "",
   "select.html": "<select class=\"form-select\" id=\"\" data-x=\"select\">\n  <!--Options added from code. -->\n</select>\n<label for=\"\" data-x=\"label\"></label>",
