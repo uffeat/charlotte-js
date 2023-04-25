@@ -1,8 +1,13 @@
 import * as _alert from '../src/components/components/alert.js'
+import * as _nav from '../src/components/components/nav.js'
 import {showToast} from '../src/components/components/toast.js'
 import {server} from '../src/utils/server.js'
 
 server.get('test')
+
+const nav1 = X.element.create("x-nav", {
+  parent: document.root,
+});
 
 const alert1 = X.element.create("x-alert", {
   content: "Some content...",

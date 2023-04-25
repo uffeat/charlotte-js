@@ -38,7 +38,7 @@ def build():
     # Build UiKit CSS assets.
     for path in Path(f"{project}/src/libs/uikit/").glob("*.*"):
         if path.suffix == ".css":
-            key = f"bootstrap/{path.name}"
+            key = f"uikit/{path.name}"
             value = path.read_text()
             assets[key] = value
 

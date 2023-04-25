@@ -1,5 +1,4 @@
 import { mixin } from "../../utils/mixin.js";
-import { ItemMixin } from "../mixins/item.js";
 import { composeSubs } from "../compositions/subs.js";
 import { composeRoot } from "../compositions/root.js";
 import { setStyle } from "../../libs/bootstrap/utils/classes.js";

@@ -42,54 +42,49 @@ const checkKwargs = (kwargs, ...validKeys) => {
   if (kwargs) {
     if (validKeys.length > 0) {
       // Check keys.
-      const invalidKeys = Object.keys(kwargs).filter(key => !validKeys.includes(key))
+      const invalidKeys = Object.keys(kwargs).filter(
+        (key) => !validKeys.includes(key)
+      );
       if (invalidKeys.length > 0) {
-        throw Error(`Invalid arg: ${invalidKeys}.`)
+        throw Error(`Invalid arg: ${invalidKeys}.`);
       }
     }
     // Return shallow copy of kwargs.
     return { ...kwargs };
   }
-}
+};
 
 window.X.checkKwargs = checkKwargs;
 
-
 const getArgs = (kwargs, ...keys) => {
-  if (!kwargs) return
-  if (keys.length === 0) return
-   // Operate on shallow copy of kwargs.
+  if (!kwargs) return;
+  if (keys.length === 0) return;
+  // Operate on shallow copy of kwargs.
   kwargs = { ...kwargs };
-  
+
   // Check keys.
-  const invalidKeys = Object.keys(kwargs).filter(key => !keys.includes(key))
+  const invalidKeys = Object.keys(kwargs).filter((key) => !keys.includes(key));
   if (invalidKeys.length > 0) {
-    throw Error(`Invalid arg: ${invalidKeys}.`)
+    throw Error(`Invalid arg: ${invalidKeys}.`);
   }
-  return keys.map(key => kwargs[key])
-}
+  return keys.map((key) => kwargs[key]);
+};
 
 window.X.getArgs = getArgs;
-
 
 // Promise tools
 
 const createPromise = (executor) => {
   return new Promise(executor);
-}
+};
 
 window.X.createPromise = createPromise;
 
 const createAndAwaitPromise = async (executor) => {
   return await createPromise(executor);
-}
+};
 
 window.X.createAndAwaitPromise = createAndAwaitPromise;
-
-
-
-
-
 
 // Element creation.
 
@@ -147,11 +142,8 @@ class _Element {
     }
 
     if (Object.keys(props).length) {
-      
       //
       Object.assign(element, props);
-
-
     }
 
     return element;
@@ -162,9 +154,6 @@ class _Element {
     // add to parent and attach shadow root.
 
     const [parent, shadow = false] = X.getArgs(kwargs, "parent", "shadow");
-
-
-
 
     html = getHtml(html);
     let element;
@@ -293,10 +282,13 @@ class _Component {
       tag = `x-${tag}`;
     }
 
-
     ////////////
     // Destructure.
-    const { item = null, parent = null } = checkKwargs(kwargs, 'item', 'parent');
+    const { item = null, parent = null } = checkKwargs(
+      kwargs,
+      "item",
+      "parent"
+    );
 
     console.log(`Creating component with item: ${item}`);
 
@@ -392,7 +384,7 @@ HTMLElement.prototype.clear = function (slot) {
 /**
  * Attaches a shadow root to an HTML element.
  * @param {object} kwargs - An object containing optional arguments.
- * @param {boolean} [kwargs.delegates_focus=false] - Whether the shadow root delegates focus.
+ * @param {boolean} [kwargs.delegatesFocus=false] - Whether the shadow root delegates focus.
  * @param {string} [kwargs.html=null] - The HTML string to add to the shadow root.
  * @param {Array} [kwargs.sheets=null] - An array of asset keys to add as stylesheets to the shadow root.
  * @returns {ShadowRoot} The newly created shadow root.
@@ -402,27 +394,27 @@ function addShadow(kwargs = {}) {
   // useful in preventing unintended side effects.
   kwargs = { ...kwargs };
   // Destructure.
-  const { delegates_focus = false, html = null, sheets = null } = kwargs;
+  const { delegatesFocus = false, html, sheets } = kwargs;
 
-  const shadow_root = this.attachShadow({
+  this.attachShadow({
     mode: "open",
-    delegatesFocus: delegates_focus,
+    delegatesFocus: delegatesFocus,
   });
 
   if (html) {
-    shadow_root.innerHTML = html;
+    this.shadowRoot.innerHTML = getHtml(html);
   }
 
   if (sheets) {
     // `sheets` is an array of assets keys ("paths").
     // Add stylesheets from `_assets` to shadow root:
-    shadow_root.addSheets(...sheets);
+    this.shadowRoot.addSheets(...sheets);
   }
+  // Add alias for consistency with non-shadow components.
+  this.root = this.shadowRoot;
 
-  this.root = shadow_root;
-
-  // Return `root` to respect native pattern.
-  return shadow_root;
+  // Return shadow root to respect native pattern.
+  return this.shadowRoot;
 }
 
 // Add `addShadow` as a method of `HTMLElement.prototype`.
@@ -475,12 +467,19 @@ function addSheets(...paths) {
     if (!(path in assets)) {
       throw new Error(`Invalid assets path: \`${path}\`.`);
     }
-    const css_text = assets[path];
+    const cssText = assets[path];
     const sheet = new CSSStyleSheet();
-    sheet.replaceSync(css_text);
+    //sheet.replaceSync(cssText);
+    sheet.replace(cssText);
+
+    console.log(`sheet \`${sheet}\`.`);
+
+
     this.adoptedStyleSheets = [...this.adoptedStyleSheets, sheet];
     if (this === document) {
       console.log(`Added stylesheet \`${path}\` to document.`);
+    } else {
+      console.log(`Added stylesheet \`${path}\` to shadow root.`);
     }
   }
 }
@@ -489,26 +488,31 @@ function addSheets(...paths) {
 ShadowRoot.prototype.addSheets = addSheets;
 document.addSheets = addSheets;
 
+
+
+
+
+
+
+
 // COMPOSITION WITH CLASSES
 
 HTMLElement.prototype.compose = function (Composition, ...args) {
   this[Composition.name.toLowerCase()] = new Composition(this, ...args);
 };
 
-
 // SHOW/HIDE
 
 function show() {
-  this.classList.remove('d-none')
+  this.classList.remove("d-none");
 }
 
-HTMLElement.prototype.show = show
-ShadowRoot.prototype.show = show
-
+HTMLElement.prototype.show = show;
+ShadowRoot.prototype.show = show;
 
 function hide() {
-  this.classList.add('d-none')
-  }
+  this.classList.add("d-none");
+}
 
-HTMLElement.prototype.hide = hide
-ShadowRoot.prototype.hide = hide
+HTMLElement.prototype.hide = hide;
+ShadowRoot.prototype.hide = hide;
