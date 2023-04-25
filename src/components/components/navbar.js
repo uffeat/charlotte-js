@@ -4,9 +4,13 @@ import { composeRoot } from "../compositions/root.js";
 
 class Navbar extends mixin(HTMLElement) {
   constructor() {
-    ////console.log(`Nav constructor invoked.`);
+    ////console.log(`Navbar constructor invoked.`);
     super();
-    composeRoot(this, { html: 'navbar', tag: "nav", cssClasses: ["navbar-expand-lg"] });
+    composeRoot(this, {
+      html: "navbar",
+     
+      //cssClasses: [],
+    });
   }
 
   connectedCallback() {
@@ -15,5 +19,4 @@ class Navbar extends mixin(HTMLElement) {
   }
 }
 
-window.customElements.define("x-navbar", Nav);
-
+window.customElements.define("x-navbar", Navbar);

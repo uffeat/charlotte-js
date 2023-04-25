@@ -5,3 +5,94 @@ body {
   height: 100vh;
 }
 
+/* LINK */
+
+a {
+  cursor: pointer;
+}
+
+/* NUMBER INPUT */
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* UTILS: WIDTH */
+
+.max-width-md {
+  max-width: 720px;
+}
+
+.max-width-lg {
+  max-width: 940px;
+}
+
+.max-width-xl {
+  max-width: 1140px;
+}
+
+/* UTILS: FLEXBOX */
+
+.column-gap-1 {
+  column-gap: 0.25rem;
+}
+
+.column-gap-2 {
+  column-gap: 0.5rem;
+}
+
+.column-gap-3 {
+  column-gap: 1rem;
+}
+
+.column-gap-4 {
+  column-gap: 1.5rem;
+}
+
+.row-gap-5 {
+  row-gap: 3rem;
+}
+
+.row-gap-1 {
+  row-gap: 0.25rem;
+}
+
+.row-gap-2 {
+  row-gap: 0.5rem;
+}
+
+.row-gap-3 {
+  row-gap: 1rem;
+}
+
+.row-gap-4 {
+  row-gap: 1.5rem;
+}
+
+.row-gap-5 {
+  row-gap: 3rem;
+}
+
+/* UTILS: DEV */
+
+.bisque {
+  background-color: bisque;
+}
+
+.green {
+  background-color: green;
+}
+
+.linen {
+  background-color: linen;
+}
+
+.pink {
+  background-color: pink;
+}
