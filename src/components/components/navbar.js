@@ -8,8 +8,6 @@ class Navbar extends mixin(HTMLElement) {
     super();
     composeRoot(this, {
       html: "navbar",
-     
-      //cssClasses: [],
     });
   }
 

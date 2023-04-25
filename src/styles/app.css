@@ -1,3 +1,12 @@
+:root {
+  --space1: 0.25rem;
+  --space2: 0.5rem;
+  --space3: 1rem; 
+  --space4: 1.5rem;
+  --space5: 3rem;
+}
+
+
 body {
   position: relative;
   overflow-x: hidden;
@@ -40,43 +49,43 @@ input[type="number"] {
 /* UTILS: FLEXBOX */
 
 .column-gap-1 {
-  column-gap: 0.25rem;
+  column-gap: var(--space1);
 }
 
 .column-gap-2 {
-  column-gap: 0.5rem;
+  column-gap: var(--space2);
 }
 
 .column-gap-3 {
-  column-gap: 1rem;
+  column-gap: var(--space3);
 }
 
 .column-gap-4 {
-  column-gap: 1.5rem;
+  column-gap: var(--space4);
 }
 
 .row-gap-5 {
-  row-gap: 3rem;
+  row-gap: var(--space5);
 }
 
 .row-gap-1 {
-  row-gap: 0.25rem;
+  row-gap: var(--space1);
 }
 
 .row-gap-2 {
-  row-gap: 0.5rem;
+  row-gap: var(--space2);
 }
 
 .row-gap-3 {
-  row-gap: 1rem;
+  row-gap: var(--space3);
 }
 
 .row-gap-4 {
-  row-gap: 1.5rem;
+  row-gap: var(--space4);
 }
 
 .row-gap-5 {
-  row-gap: 3rem;
+  row-gap: var(--space5);
 }
 
 /* UTILS: DEV */
