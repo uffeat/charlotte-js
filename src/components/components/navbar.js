@@ -1,13 +1,12 @@
-
 import { mixin } from "../../utils/mixin.js";
 import { composeSubs } from "../compositions/subs.js";
 import { composeRoot } from "../compositions/root.js";
 
-class Nav extends mixin(HTMLElement) {
+class Navbar extends mixin(HTMLElement) {
   constructor() {
     ////console.log(`Nav constructor invoked.`);
     super();
-    composeRoot(this, { tag: "nav", cssClasses: ["nav", 'flex-column', 'nav-pills'] });
+    composeRoot(this, { html: 'navbar', tag: "nav", cssClasses: ["navbar-expand-lg"] });
   }
 
   connectedCallback() {
@@ -16,5 +15,5 @@ class Nav extends mixin(HTMLElement) {
   }
 }
 
-window.customElements.define("x-nav", Nav);
+window.customElements.define("x-navbar", Nav);
 

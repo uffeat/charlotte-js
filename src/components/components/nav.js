@@ -97,7 +97,7 @@ class Nav extends mixin(HTMLElement) {
   }
 
   _setActiveLink(link) {
-    const ACTIVE_CLASSES = ["active", "fw-bolder"];
+    const ACTIVE_CLASSES = ["active", "fw-semibold"];
 
     const oldActiveLink = this.get("a.active");
     if (oldActiveLink) {
