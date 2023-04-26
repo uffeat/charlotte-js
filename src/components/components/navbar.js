@@ -1,60 +1,71 @@
 import { mixin } from "../../utils/mixin.js";
 import { composeSubs } from "../compositions/subs.js";
-import { composeRoot } from "../compositions/root.js";
 import { EventHandlerMixin } from "../mixins/event-handler.js";
-import * as _nav from '../components/nav.js'
-
+import * as _nav from "../components/nav.js";
+import { getWidthIndex } from "../../libs/bootstrap/utils/breakpoints.js";
 
 class Navbar extends mixin(HTMLElement, EventHandlerMixin) {
+  #bsCollapse;
   constructor() {
-    ////console.log(`Navbar constructor.`);
     super();
-    composeRoot(this, {
+    this.addShadow({
+      sheets: ["bootstrap/core.css", "bootstrap/custom.css"],
       html: "navbar",
     });
     composeSubs(this);
 
-    this.addEventHandler("click", this._onclickMainNav, this.subs.mainNav);
+    this.#bsCollapse = new bootstrap.Collapse(this.subs.navbarCollapse);
+    this.#bsCollapse.show();
+
+    this.subs.toggleButton.onclick = (event) => {
+      this.#bsCollapse.toggle();
+    };
+    
+    this.subs.mainNav.onclick = (event) => {
+      if (event.target.tagName === "A") {
+        this.close();
+      }
+    };
   }
 
   get auxNav() {
-    return this.subs.auxNav
+    return this.subs.auxNav;
   }
 
   set auxNav(_) {
-      throw `'auxNav' is read-only.`
+    throw `'auxNav' is read-only.`;
   }
 
   get mainNav() {
-    return this.subs.mainNav
+    return this.subs.mainNav;
   }
 
   set mainNav(_) {
-      throw `'mainNav' is read-only.`
-  }
-
-  connectedCallback() {
-    //console.log(`Navbar connectedCallback.`);
-    this.addRoot();
+    throw `'mainNav' is read-only.`;
   }
 
   toggle() {
-    this.subs.toggleButton.click()
+    if (getWidthIndex() < 3) {
+      this.#bsCollapse.toggle();
+    }
   }
 
   open() {
-
+    if (
+      getWidthIndex() < 3 &&
+      !this.subs.navbarCollapse.classList.contains("show")
+    ) {
+      this.#bsCollapse.show();
+    }
   }
 
   close() {
-
-  }
-
-  _onclickMainNav(event) {
-    if (event.target.tagName === "A") {
-      this.toggle();
+    if (
+      getWidthIndex() < 3 &&
+      this.subs.navbarCollapse.classList.contains("show")
+    ) {
+      this.#bsCollapse.hide();
     }
   }
 }
-
 window.customElements.define("x-navbar", Navbar);

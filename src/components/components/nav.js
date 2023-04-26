@@ -12,11 +12,11 @@ class Nav extends mixin(HTMLElement, EventHandlerMixin) {
   static #ACTIVE_CLASSES = ["active"];
   #links;
   constructor() {
-    ////console.log(`Nav constructor invoked.`);
+    ////console.log(`Nav constructor.`);
     super();
     this.addShadow({
       sheets: ["bootstrap/core.css", "bootstrap/custom.css"],
-      html: `nav`,
+      html: 'nav',
     });
     composeSubs(this);
 

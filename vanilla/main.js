@@ -13,7 +13,8 @@ server.get("test");
 const navbar1 = X.element.create("x-navbar", {
   parent: document.root,
 });
-
+navbar1.auxNav.links.add("link_a", { text: "Link A" });
+navbar1.mainNav.links.add("link_1", { text: "Link 1" });
 
 
 
