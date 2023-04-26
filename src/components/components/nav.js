@@ -9,7 +9,7 @@ document.addCss(`
 `);
 
 class Nav extends mixin(HTMLElement, EventHandlerMixin) {
-  static #ACTIVE_CLASSES = ["active", "fw-semibold"];
+  static #ACTIVE_CLASSES = ["active"];
   #links;
   constructor() {
     ////console.log(`Nav constructor invoked.`);
@@ -77,12 +77,21 @@ class Nav extends mixin(HTMLElement, EventHandlerMixin) {
     return this.#links;
   }
 
+  get collapsible() {
+    throw `'collapsible' is write-only.`
+  }
+
+  set collapsible(collapsible) {
+    this.setAttr('collapsible', collapsible)
+    
+  }
+
   get vertical() {
-    this.subs.nav.classList.contains("flex-column");
+    throw `'vertical' is write-only.`
   }
 
   set vertical(vertical) {
-    this.subs.nav.classList[vertical ? "add" : "remove"]("flex-column");
+    this.setAttr('vertical', vertical)
   }
 
   _onclick(event) {
@@ -103,9 +112,11 @@ class Nav extends mixin(HTMLElement, EventHandlerMixin) {
     const oldActiveLink = this.get("a.active");
     if (oldActiveLink) {
       oldActiveLink.classes.remove(...Nav.#ACTIVE_CLASSES);
+      oldActiveLink.setAttr('aria-current', null)
     }
 
     link.classes.add(...Nav.#ACTIVE_CLASSES);
+    link.setAttr('aria-current', 'page')
     this.sendEvent("x-active-change", { link, name: link.name })
 
   }

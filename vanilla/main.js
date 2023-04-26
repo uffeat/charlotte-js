@@ -9,16 +9,16 @@ import { server } from "../src/utils/server.js";
 server.get("test");
 */
 
-/*
+
 const navbar1 = X.element.create("x-navbar", {
   parent: document.root,
 });
-*/
+
 
 
 
 const nav1 = X.element.create("x-nav", {
-  vertical: true,
+  vertical: false,
   parent: document.root,
 });
 

@@ -451,6 +451,19 @@ Object.defineProperty(Node.prototype, "text", {
   configurable: true,
 });
 
+// ATTRS
+
+function setAttr(name, value) {
+  if (value) {
+    this.setAttribute(name, value)
+  } else {
+    this.removeAttribute(name)
+  }
+}
+
+HTMLElement.prototype.setAttr = setAttr;
+ShadowRoot.prototype.setAttr = setAttr;
+
 // STYLE
 
 /**
@@ -479,65 +492,44 @@ function addSheets(...paths) {
 ShadowRoot.prototype.addSheets = addSheets;
 // NOTE: Could be expanded to also work for document (would probably need to bind).
 
-/** Useful for adding small component-specific css snippets to document. 
+/** Useful for adding small component-specific css snippets to document.
  * Should be invoked from component module. */
 document.addCss = (cssText) => {
   const sheet = new CSSStyleSheet();
   sheet.replaceSync(cssText);
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-}
-
-
-function addClasses(...classes) {
-  classes.forEach(c => this.classList.add(c))
-}
-
-function removeClasses(...classes) {
-  classes.forEach(c => this.classList.remove(c))
-}
-
-HTMLElement.prototype.addClasses = addClasses;
-ShadowRoot.prototype.addClasses = addClasses;
-
-HTMLElement.prototype.removeClasses = removeClasses;
-ShadowRoot.prototype.removeClasses = removeClasses;
-
-
-
-
+};
 
 const classesProp = {
   get: function () {
-    if (this._classes) return this._classes
-    const elementThis = this
+    if (this._classes) return this._classes;
+    const elementThis = this;
 
     class Classes {
       add(...args) {
-        args.forEach(arg => elementThis.classList.add(arg))
+        args.forEach((arg) => elementThis.classList.add(arg));
       }
       remove(...args) {
-        args.forEach(arg => elementThis.classList.remove(arg))
+        args.forEach((arg) => elementThis.classList.remove(arg));
       }
       clear() {
-        elementThis.classList = ''
+        elementThis.classList = "";
       }
       has(arg) {
-        elementThis.classList.contains(arg)
+        elementThis.classList.contains(arg);
       }
       toggle(arg) {
-        elementThis.classList.toggle(arg)
+        elementThis.classList.toggle(arg);
       }
-  
     }
-    this._classes = new Classes()
+    this._classes = new Classes();
     return this._classes;
   },
   set: function (_) {
     throw `classes is read-only.`;
   },
   configurable: true,
-}
-
+};
 
 Object.defineProperty(HTMLElement.prototype, "classes", classesProp);
 Object.defineProperty(ShadowRoot.prototype, "classes", classesProp);
@@ -545,19 +537,18 @@ Object.defineProperty(ShadowRoot.prototype, "classes", classesProp);
 // EVENTS
 
 function sendEvent(name, detail) {
-  let event
+  let event;
   if (detail) {
-    event = new CustomEvent(name, { detail })
+    event = new CustomEvent(name, { detail });
   } else {
-    event = new Event(name)
+    event = new Event(name);
   }
-  this.dispatchEvent(event)
-  return event
+  this.dispatchEvent(event);
+  return event;
 }
 
 HTMLElement.prototype.sendEvent = sendEvent;
 ShadowRoot.prototype.sendEvent = sendEvent;
-
 
 // COMPOSITION WITH CLASSES
 

@@ -9,6 +9,7 @@ class Navbar extends mixin(HTMLElement) {
     composeRoot(this, {
       html: "navbar",
     });
+    composeSubs(this);
   }
 
   connectedCallback() {

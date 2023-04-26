@@ -37,8 +37,8 @@
     </svg>
   </button>
   <x-nav class="ms-auto" data-x="primaryNav">
-    <a name="link1" href="#">Link 1</a>
-    <a name="link2" href="#">Link 2</a>
+    <a href="#">Link</a>
+    <a href="#">Link</a>
   </x-nav>
 </div>
 
@@ -47,9 +47,10 @@
     class="navbar-collapse collapse"
     id="navbarCollapse"
   >
-    <x-nav class="ps-3" collapsible data-x="secondaryNav">
-      <a name="link3" href="#">Link 3</a>
-      <a name="link4" href="#">Link 4</a>
-    </x-nav>
+    <nav class="navbar-nav ps-3" data-x="secondaryNav">
+      <a class="nav-link active" aria-current="page" href="#">Home</a>
+      <a class="nav-link" href="#">Link</a>
+      <a class="nav-link disabled">Disabled</a>
+    </nav>
   </div>
 </div>
