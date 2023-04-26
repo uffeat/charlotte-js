@@ -503,6 +503,62 @@ HTMLElement.prototype.removeClasses = removeClasses;
 ShadowRoot.prototype.removeClasses = removeClasses;
 
 
+
+
+
+const classesProp = {
+  get: function () {
+    if (this._classes) return this._classes
+    const elementThis = this
+
+    class Classes {
+      add(...args) {
+        args.forEach(arg => elementThis.classList.add(arg))
+      }
+      remove(...args) {
+        args.forEach(arg => elementThis.classList.remove(arg))
+      }
+      clear() {
+        elementThis.classList = ''
+      }
+      has(arg) {
+        elementThis.classList.contains(arg)
+      }
+      toggle(arg) {
+        elementThis.classList.toggle(arg)
+      }
+  
+    }
+    this._classes = new Classes()
+    return this._classes;
+  },
+  set: function (_) {
+    throw `classes is read-only.`;
+  },
+  configurable: true,
+}
+
+
+Object.defineProperty(HTMLElement.prototype, "classes", classesProp);
+Object.defineProperty(ShadowRoot.prototype, "classes", classesProp);
+
+// EVENTS
+
+function sendEvent(name, detail) {
+  let event
+  if (detail) {
+    event = new CustomEvent(name, { detail })
+  } else {
+    event = new Event(name)
+  }
+  this.dispatchEvent(event)
+  return event
+}
+
+HTMLElement.prototype.sendEvent = sendEvent;
+ShadowRoot.prototype.sendEvent = sendEvent;
+
+
 // COMPOSITION WITH CLASSES
 
 HTMLElement.prototype.compose = function (Composition, ...args) {

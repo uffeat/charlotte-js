@@ -4,14 +4,19 @@ import * as _navbar from "../src/components/components/navbar.js";
 import { showToast } from "../src/components/components/toast.js";
 import { server } from "../src/utils/server.js";
 
-server.get("test");
 
+/*
+server.get("test");
+*/
+
+/*
 const navbar1 = X.element.create("x-navbar", {
   parent: document.root,
 });
+*/
 
 
-/*
+
 const nav1 = X.element.create("x-nav", {
   vertical: true,
   parent: document.root,
@@ -30,8 +35,9 @@ nav1.links.show("third_link");
 
 nav1.addEventListener("x-active-change", (event) => {
   console.log(`New active link: ${event.detail.name}`);
+  event.detail.received = 42
 });
-*/
+
 
 
 /*

@@ -1,66 +1,16 @@
 import { mixin } from "../../utils/mixin.js";
 import { composeSubs } from "../compositions/subs.js";
+import { EventHandlerMixin } from "../mixins/event-handler.js";
 
-const cssText = `
+document.addCss(`
 .nav-link:hover {
   text-decoration: none;
 }
-`;
+`);
 
-document.addCss(cssText);
-
-/** Composition for controlling nav links by name. */
-class Links {
-  #component;
-  constructor(component) {
-    this.#component = component;
-  }
-
-  get active() {
-    const activeLink = this.#component.get("a.active");
-    if (!activeLink) return;
-    return activeLink.name;
-  }
-
-  set active(name) {
-    this.#component._setActiveLink(this.get(name));
-  }
-
-  add(name, props = {}) {
-    if (this.#component.get(`a[name=${name}]`)) {
-      throw `A link with name '${name}' already added.`;
-    }
-    const link = X.element.create("a", props);
-    link.name = name;
-    this.#component.append(link);
-  }
-
-  enable(name) {
-    this.get(name).classList.remove("disabled");
-  }
-
-  disable(name) {
-    this.get(name).classList.add("disabled");
-  }
-
-  get(name) {
-    const link = this.#component.get(`a[name=${name}]`);
-    if (!link) {
-      throw `Invalid name: ${name}`;
-    }
-    return link;
-  }
-
-  hide(name) {
-    this.get(name).hide();
-  }
-
-  show(name) {
-    this.get(name).show();
-  }
-}
-
-class Nav extends mixin(HTMLElement) {
+class Nav extends mixin(HTMLElement, EventHandlerMixin) {
+  static #ACTIVE_CLASSES = ["active", "fw-semibold"];
+  #links;
   constructor() {
     ////console.log(`Nav constructor invoked.`);
     super();
@@ -68,24 +18,63 @@ class Nav extends mixin(HTMLElement) {
       sheets: ["bootstrap/core.css", "bootstrap/custom.css"],
       html: `nav`,
     });
-
     composeSubs(this);
 
-    this.subs.slot.addEventListener("slotchange", (event) => {
-      event.target.assignedNodes().forEach((link) => {
-        link.classList.add("nav-link");
+    this.addEventHandler("click", this._onclick);
+    this.addEventHandler("slotchange", this._onslotchange, this.subs.slot);
+  }
 
-        if (!link._clickHandlerAdded) {
-          link.addEventListener("click", (event) => {
-            this._setActiveLink(link);
-          });
+  get links() {
+    if (this.#links) return this.#links;
 
-          link._clickHandlerAdded = true;
+    const componentThis = this;
+
+    class Links {
+      get active() {
+        const activeLink = componentThis.get("a.active");
+        if (!activeLink) return;
+        return activeLink.name;
+      }
+
+      set active(name) {
+        componentThis._setActiveLink(this.get(name));
+      }
+
+      add(name, props = {}) {
+        if (componentThis.get(`a[name=${name}]`)) {
+          throw `Link with name '${name}' already added.`;
         }
-      });
-    });
+        const link = X.element.create("a", props);
+        link.name = name;
+        componentThis.append(link);
+      }
 
-    this.links = new Links(this);
+      enable(name) {
+        this.get(name).classList.remove("disabled");
+      }
+
+      disable(name) {
+        this.get(name).classList.add("disabled");
+      }
+
+      get(name) {
+        const link = componentThis.get(`a[name=${name}]`);
+        if (!link) {
+          throw `Invalid name: ${name}`;
+        }
+        return link;
+      }
+
+      hide(name) {
+        this.get(name).hide();
+      }
+
+      show(name) {
+        this.get(name).show();
+      }
+    }
+    this.#links = new Links();
+    return this.#links;
   }
 
   get vertical() {
@@ -96,20 +85,31 @@ class Nav extends mixin(HTMLElement) {
     this.subs.nav.classList[vertical ? "add" : "remove"]("flex-column");
   }
 
-  _setActiveLink(link) {
-    const ACTIVE_CLASSES = ["active", "fw-semibold"];
+  _onclick(event) {
+    if (event.target.tagName === "A") {
+      this._setActiveLink(event.target);
+    }
+  }
 
+  _onslotchange(event) {
+    event.target.assignedNodes().forEach((element) => {
+      if (element.tagName === "A") {
+        element.classes.add("nav-link");
+      }
+    });
+  }
+
+  _setActiveLink(link) {
     const oldActiveLink = this.get("a.active");
     if (oldActiveLink) {
-      oldActiveLink.removeClasses(...ACTIVE_CLASSES);
+      oldActiveLink.classes.remove(...Nav.#ACTIVE_CLASSES);
     }
 
-    link.addClasses(...ACTIVE_CLASSES);
+    link.classes.add(...Nav.#ACTIVE_CLASSES);
+    this.sendEvent("x-active-change", { link, name: link.name })
 
-    this.dispatchEvent(
-      new CustomEvent("x-active-change", { detail: { link, name: link.name } })
-    );
   }
 }
 
 window.customElements.define("x-nav", Nav);
+
