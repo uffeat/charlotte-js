@@ -12,20 +12,19 @@ class Navbar extends mixin(HTMLElement) {
       html: "navbar",
     });
     composeSubs(this);
-
+    // Init Bootstrap component (control via `data-bs-target` doesn't work in the shadow).
     this.#bsCollapse = new bootstrap.Collapse(this.subs.navbarCollapse);
-    this.#bsCollapse.show();
-
+    // Set up toggle button.
     this.subs.toggleButton.onclick = (event) => {
       this.#bsCollapse.toggle();
     };
-
+    // Event delegation to links so that link clicks close collapse bar.
     this.onclick = (event) => {
       if (event.target.tagName === "A") {
         this.close();
       }
     };
-
+    // Patch-up added nav component's to suit aux nav.
     this.root.get(`slot:not([name=aux])`).onslotchange = (event) => {
       event.target.assignedNodes().forEach((element) => {
         if (element.tagName === "X-NAV") {
@@ -34,7 +33,7 @@ class Navbar extends mixin(HTMLElement) {
         }
       });
     };
-
+    // Patch-up added nav component's to suit main nav.
     this.root.get(`slot[name=aux]`).onslotchange = (event) => {
       event.target.assignedNodes().forEach((element) => {
         if (element.tagName === "X-NAV") {
@@ -44,34 +43,40 @@ class Navbar extends mixin(HTMLElement) {
     };
   }
 
+  /** Toggles collapse bar open/close. */
   toggle() {
     if (getWidthIndex() < 3) {
       this.#bsCollapse.toggle();
     }
   }
 
+  /** Open collapse bar. */
   open() {
-    if (
-      getWidthIndex() < 3 &&
-      !this.subs.navbarCollapse.classList.contains("show")
-    ) {
-      this.#bsCollapse.show();
-    }
+    // Abort if no collapse bar due to width.
+    if (getWidthIndex() > 2) return;
+    // Abort if collapse bar already open.
+    if (this.subs.navbarCollapse.classList.contains("show")) return;
+    this.#bsCollapse.show();
   }
 
+  /** Closes collapse bar. */
   close() {
-    if (
-      getWidthIndex() < 3 &&
-      this.subs.navbarCollapse.classList.contains("show")
-    ) {
-      this.#bsCollapse.hide();
-    }
+    // Abort if no collapse bar due to width.
+    if (getWidthIndex() > 2) return;
+    // Abort if collapse bar already closed.
+    if (!this.subs.navbarCollapse.classList.contains("show")) return;
+    this.#bsCollapse.hide();
   }
 }
+
 window.customElements.define("x-navbar", Navbar);
 
-
 /* EXAMPLE USE OF NAV AND NAVBAR FROM JS
+
+const navbar = X.element.create("x-navbar", {
+  parent: document.root,
+});
+
 
 const navbar = X.element.create("x-navbar", {
   parent: document.root,
@@ -88,11 +93,7 @@ mainNav.links.disable("thirdLink");
 mainNav.links.active = 'firstLink'
 
 mainNav.addEventListener("x-active-change", (event) => {
-  console.log(`New active link name: ${event.detail.name}`);
-  console.log(`New active link: ${event.detail.link.text}`);
-});
-
-
+  console.log(`New acti
 const auxNav = X.element.create("x-nav", {slot: 'aux',
   parent: navbar,
 });
