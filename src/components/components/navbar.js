@@ -3,17 +3,20 @@ import { mixin } from "../../utils/mixin.js";
 import * as _nav from "../components/nav.js";
 import { composeSubs } from "../compositions/subs.js";
 
-
+/** Bootstrap-based responsive navbar container component with two tiers of nav bars. 
+ * Works with the nav component. */
 class Navbar extends mixin(HTMLElement) {
   #bsCollapse;
   constructor() {
     super();
+    /** Creates shadow, inits compositions, adds event handlers. */
     this.addShadow({
       sheets: ["bootstrap/core", "bootstrap/custom", "styles/utils"],
       html: "navbar",
     });
     composeSubs(this);
-    // Init Bootstrap component (control via `data-bs-target` doesn't work in the shadow).
+    // Init Bootstrap component. Collapse control via `data-bs-target` doesn't 
+    // work in the shadow, so we need to be able to explicitly control collapse.
     this.#bsCollapse = new bootstrap.Collapse(this.subs.navbarCollapse);
     // Set up toggle button.
     this.subs.toggleButton.onclick = (event) => {
@@ -25,7 +28,7 @@ class Navbar extends mixin(HTMLElement) {
         this.close();
       }
     };
-    // Patch-up added nav component's to suit aux nav.
+    // Patch-up added nav components to suit aux nav.
     this.root.get(`slot:not([name=aux])`).onslotchange = (event) => {
       event.target.assignedNodes().forEach((element) => {
         if (element.tagName === "X-NAV") {
@@ -34,7 +37,7 @@ class Navbar extends mixin(HTMLElement) {
         }
       });
     };
-    // Patch-up added nav component's to suit main nav.
+    // Patch-up added nav components to suit main nav.
     this.root.get(`slot[name=aux]`).onslotchange = (event) => {
       event.target.assignedNodes().forEach((element) => {
         if (element.tagName === "X-NAV") {

@@ -20,7 +20,8 @@ class NavLinks {
       this.#component.setActiveLink(this.get(name));
   }
 
-   /** Adds active link by name. `props` should typically only contain `text`. */
+   /** Adds active link by name. `props` should typically only contain `href` and
+    * `text`. */
   add(name, props = {}) {
     if (this.#component.get(`a[name=${name}]`)) {
       throw `Link with name '${name}' already added.`;

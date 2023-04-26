@@ -1,6 +1,7 @@
 <style>
   @media (max-width: 769px) {
     .navbar:has(.navbar-collapse.collapse:not(.show):not(.collapsing)) {
+      /* Avoid double border when collapse bar is closed. */
       border: none !important;
     }
   }
@@ -16,6 +17,9 @@
     aria-label="Toggle navigation"
     data-x="toggleButton"
   >
+  <!--Boostrap's prescribed method for adding a menu icon 
+  (with `<span class="navbar-toggler-icon"></span>`) does't work in this context.
+  Hence, the the explicit embedding of the svg.-->
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="32"
