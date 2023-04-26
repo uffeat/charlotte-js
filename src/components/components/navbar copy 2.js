@@ -23,11 +23,44 @@ class Navbar extends mixin(HTMLElement, EventHandlerMixin) {
       this.#bsCollapse.toggle();
     };
 
+    this.aux = X.element.create('div.ms-auto', {slot: 'aux'})
+    this.main = X.element.create('x-nav.ps-3')
+    this.main.collapsible = true
+
+    
+    this.root.get('slot:not([name=aux])').onslotchange = (event) => {
+      event.target.assignedNodes().forEach((element) => {
+        if (element.tagName === "A") {
+          this.main.append(element)
+        }
+      });
+    }
+    
+    this.root.get('slot[name=aux]').onslotchange = (event) => {
+      event.target.assignedNodes().forEach((element) => {
+        if (element.tagName === "A") {
+          this.aux.append(element)
+        }
+      });
+    }
+
+    /*
     this.subs.mainNav.onclick = (event) => {
       if (event.target.tagName === "A") {
         this.close();
       }
     };
+    */
+  }
+
+  connectedCallback() {
+    if (!this.contains(this.aux)) {
+      this.append(this.aux)
+    }
+    if (!this.contains(this.main)) {
+      this.append(this.main)
+    }
+   
   }
 
   get links() {

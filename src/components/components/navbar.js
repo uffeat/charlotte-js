@@ -1,10 +1,9 @@
 import { mixin } from "../../utils/mixin.js";
 import { composeSubs } from "../compositions/subs.js";
-import { EventHandlerMixin } from "../mixins/event-handler.js";
 import * as _nav from "../components/nav.js";
 import { getWidthIndex } from "../../libs/bootstrap/utils/breakpoints.js";
 
-class Navbar extends mixin(HTMLElement, EventHandlerMixin) {
+class Navbar extends mixin(HTMLElement) {
   #bsCollapse;
   constructor() {
     super();
@@ -20,28 +19,12 @@ class Navbar extends mixin(HTMLElement, EventHandlerMixin) {
     this.subs.toggleButton.onclick = (event) => {
       this.#bsCollapse.toggle();
     };
-    
-    this.subs.mainNav.onclick = (event) => {
+
+    this.onclick = (event) => {
       if (event.target.tagName === "A") {
         this.close();
       }
     };
-  }
-
-  get auxNav() {
-    return this.subs.auxNav;
-  }
-
-  set auxNav(_) {
-    throw `'auxNav' is read-only.`;
-  }
-
-  get mainNav() {
-    return this.subs.mainNav;
-  }
-
-  set mainNav(_) {
-    throw `'mainNav' is read-only.`;
   }
 
   toggle() {

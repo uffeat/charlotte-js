@@ -1,11 +1,10 @@
 <style>
   @media (max-width: 769px) {
-    x-navbar .navbar-collapse > nav {
+    .navbar-collapse > nav {
       padding-top: var(--space3);
       padding-bottom: var(--space3);
     }
-    x-navbar
-      .navbar:has(.navbar-collapse.collapse:not(.show):not(.collapsing)) {
+    .navbar:has(.navbar-collapse.collapse:not(.show):not(.collapsing)) {
       border: none !important;
     }
   }
@@ -36,16 +35,14 @@
     </svg>
   </button>
   <x-nav class="ms-auto" data-x="auxNav">
-    <a name="link1" href="#">Link 1</a>
-    <a name="link2" href="#">Link 2</a>
+    <slot name="aux"></slot>
   </x-nav>
 </div>
 
 <div class="navbar navbar-expand-md py-0 border-bottom">
   <div class="navbar-collapse collapse" data-x="navbarCollapse">
     <x-nav class="ps-3" collapsible data-x="mainNav">
-      <a name="link3" href="#">Link 3</a>
-      <a name="link4" href="#">Link 4</a>
+      <slot></slot>
     </x-nav>
   </div>
 </div>
