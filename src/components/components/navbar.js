@@ -1,7 +1,8 @@
-import { mixin } from "../../utils/mixin.js";
-import { composeSubs } from "../compositions/subs.js";
-import * as _nav from "../components/nav.js";
 import { getWidthIndex } from "../../libs/bootstrap/utils/breakpoints.js";
+import { mixin } from "../../utils/mixin.js";
+import * as _nav from "../components/nav.js";
+import { composeSubs } from "../compositions/subs.js";
+
 
 class Navbar extends mixin(HTMLElement) {
   #bsCollapse;
@@ -116,4 +117,11 @@ const container = X.element.create('div', {parent: document.root, html: `
   </x-nav>
 </x-navbar>
 `})
+*/
+
+/* NOTES ON APPLIED PATTERN
+- No 'shadow-in-shadow'.
+- The basic nav component is explicitly used as a building blocks
+  for the navbar component but is NOT an internal pat of the navbar component
+  (other than with respect to css class and attribute adaptation).
 */
