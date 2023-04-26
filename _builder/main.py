@@ -42,6 +42,13 @@ def build():
             value = path.read_text()
             assets[key] = value
 
+    # Build app CSS assets.
+    for path in Path(f"{project}/src/styles/").glob("*.*"):
+        if path.suffix == ".css" and path.name != "app.css":
+            key = f"styles/{path.name}"
+            value = path.read_text()
+            assets[key] = value
+
 
     text = f"export const assets = {json.dumps(assets, indent=2)}"
     Path(f"{project}/src/assets/_assets.js").write_text(text)

@@ -1,12 +1,5 @@
 import { APIORIGIN } from "../config.js";
-
-function genSearchParams(searchObj) {
-  const urlParams = new URLSearchParams();
-  for (const [key, value] of Object.entries(searchObj)) {
-    urlParams.set(key, value);
-  }
-  return "?" + urlParams.toString();
-}
+import { genSearchParams } from "./url.js";
 
 
 // TODO: DRY!!!!

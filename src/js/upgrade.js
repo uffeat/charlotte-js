@@ -472,7 +472,7 @@ ShadowRoot.prototype.setAttr = setAttr;
  * @throws {KeyError} If an invalid assets path is provided.
  */
 function addSheets(...paths) {
-  for (const path of paths) {
+  for (let path of paths) {
     if (!path.endsWith(".css")) {
       path = `${path}.css`;
     }

@@ -14,7 +14,7 @@ class Nav extends mixin(HTMLElement) {
   constructor() {
     super();
     this.addShadow({
-      sheets: ["bootstrap/core.css", "bootstrap/custom.css"],
+      sheets: ["bootstrap/core", "bootstrap/custom", "styles/utils"],
       html: "nav",
     });
     composeSubs(this);
