@@ -32,6 +32,8 @@ function removeHash() {
 
 
 function parseLocationHash() {
+  
+
   // Get the hash part of the URL without the leading '#'
   const hash = window.location.hash.slice(1);
 
