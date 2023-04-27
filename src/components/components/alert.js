@@ -6,7 +6,6 @@ import { setStyle } from "../../libs/bootstrap/utils/classes.js";
 class Alert extends mixin(HTMLElement) {
   #styleName;
   constructor() {
-    ////console.log(`Alert constructor invoked.`);
     super();
     composeRoot(this, { html: "alert", cssClasses: ["alert"] });
     composeSubs(this);
@@ -15,7 +14,6 @@ class Alert extends mixin(HTMLElement) {
   }
 
   connectedCallback() {
-    //console.log(`connectedCallback invoked for Alert.`);
     this.addRoot();
   }
 

@@ -11,7 +11,6 @@ const breakpoints = {
 
 /** Returns index for current breakpoint band. */
 function getWidthIndex() {
-  
   const width = document.documentElement.clientWidth;
   if (width <= breakpoints.sm) return 1
   if (width <= breakpoints.md) return 2
