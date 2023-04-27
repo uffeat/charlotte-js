@@ -3,8 +3,6 @@ import { FuncReg } from "./func-reg.js";
 
 const routes = new FuncReg();
 
-console.log(`routes: ${routes.getKeys()}`);
-
 const onhashchange = (event) => {
   const result = parseLocationHash();
   if (!result) return
@@ -23,7 +21,6 @@ const onhashchange = (event) => {
   }
 };
 
-window.onhashchange = onhashchange;
-onhashchange();
 
-export { routes };
+
+export { onhashchange, routes };
