@@ -1,12 +1,15 @@
 class FuncReg {
   #reg = {};
-  constructor() {}
+  constructor() {
+    this._reg = {}
+  }
 
   add(key, func) {
-    if (key in func) {
+    if (key in this.#reg) {
       throw `A function is already registered with key: ${key}.`;
     }
     this.#reg[key] = func;
+    this._reg[key] = func;
   }
 
   remove(key) {
@@ -22,16 +25,16 @@ class FuncReg {
   }
 
   run(key, ...args) {
-    if (!(key in func)) {
+    if (!(key in this.#reg)) {
       throw `No function registered with key: ${key}.`;
     }
     return this.#reg[key](...args);
   }
 
-  reveal() {
-    const regText = JSON.stringify(this.#reg);
-    console.log(regText);
-    return regText;
+  getKeys() {
+    
+    
+    return Object.keys(this.#reg)
   }
 }
 

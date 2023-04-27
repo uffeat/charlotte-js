@@ -14,10 +14,9 @@ class DataStore {
     this.#store[key] = value;
   }
 
-  reveal() {
-    const text = JSON.stringify(this.#store);
-    console.log(text);
-    return text;
+  getKeys() {
+    return Object.keys(this.#store)
+    
   }
 }
 

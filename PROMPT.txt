@@ -4,14 +4,30 @@ Please add the JSDoc style comments.
 Please also let me know if the code makes sense or if you detect any mistakes.
 
 
-Please give me a JS function `parseHash` function that takes `window.location.hash` string as a `hash` arg.
-The function should return an object with the following keys:
-- `key`: A string correponding to the part of `window.location.hash` between `#` and the first '/'.
-  If no '/' is found in `window.location.hash`, `key` should hold the string after `#`.
-- params: 
+Please give me a JS function `parseHash` that parses `window.location.hash`.
+I wish to use the function in connection with a client-side router. 
+The function should return an object with the parsed result. 
+Specifically, the function should return an object with (potentially) the following keys:
+- `key`: A string corresponding to the part of `window.location.hash` between `#` and the first '/'.
+- `params`: An array of subsequent strings between '/' characters
+   provided that the string does not contain `?`. If there are none, `params` should be 
+   not be added to the returned object.
+- `query`: If `window.location.hash` ends with a part that starts with `?` or `/?`, 
+   this part should be returned as an object parsed from the query string.
 
+For example, 
+parsing `#product/123/abc?name=stuff&number=42` or `#product/123/abc/?name=stuff&number=42` should give 
+`{key: 'product', params: ['123', 'abc'], query: {name: 'stuff', number: '42'}}`;
+parsing `#blog/first` or `#blog/first/` should give `{key: 'blog', params: ['first']}`,
+and parsing `#home` or `#home/` should give `{key: 'home'}`
+and parsing `#` should not return anything.
+
+Please ensure that the function can handle encoding to that the returned result is decoded.
+Please add explanatory comments.
 
 
 Comments
 
 Possibly encoded
+
+Use funcs
