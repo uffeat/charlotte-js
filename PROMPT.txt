@@ -4,14 +4,14 @@ Please add the JSDoc style comments.
 Please also let me know if the code makes sense or if you detect any mistakes.
 
 
-Please give me the reverse of the functions below, i.e., a `genSearchObj` function that takes
-an encoded url search params string as arg and returns a correponding decoded "search object".
+Please give me a JS function `parseHash` function that takes `window.location.hash` string as a `hash` arg.
+The function should return an object with the following keys:
+- `key`: A string correponding to the part of `window.location.hash` between `#` and the first '/'.
+  If no '/' is found in `window.location.hash`, `key` should hold the string after `#`.
+- params: 
 
-/** Returns encoded search params string form search object. */
-function genSearchParams(searchObj) {
-  const urlParams = new URLSearchParams();
-  for (const [key, value] of Object.entries(searchObj)) {
-    urlParams.set(key, value);
-  }
-  return "?" + urlParams.toString();
-}
+
+
+Comments
+
+Possibly encoded

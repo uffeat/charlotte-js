@@ -43,7 +43,7 @@ class Alert extends mixin(HTMLElement) {
   }
 
   showAlert(content, kwargs = {}) {
-    const [headline, styleName] = X.getArgs(kwargs, "headline", "styleName");
+    const [headline, styleName] = getArgs(kwargs, "headline", "styleName");
     this.content = content;
     if (headline) this.headline = headline;
     if (styleName) this.styleName = styleName;

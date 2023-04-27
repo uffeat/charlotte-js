@@ -11,13 +11,13 @@ const showToast = (content, kwargs = {}) => {
 
   let container = document.get("div.toast-container");
   if (!container) {
-    container = X.element.create(
+    container = createElement(
       "div.toast-container.position-fixed.bottom-0.end-0.p-3",
       { parent: document.body }
     );
   }
 
-  const component = X.element.createFromHtml("toast", { parent: container });
+  const component = createElementFromHtml("toast", { parent: container });
   composeSubs(component);
   
   setStyle(component.subs.headline, "text", styleName);

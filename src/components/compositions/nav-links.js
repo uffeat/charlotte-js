@@ -26,7 +26,7 @@ class NavLinks {
     if (this.#component.get(`a[name=${name}]`)) {
       throw `Link with name '${name}' already added.`;
     }
-    const link = X.element.create("a", props);
+    const link = createElement("a", props);
     link.name = name;
     this.#component.append(link);
   }

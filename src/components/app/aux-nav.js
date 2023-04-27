@@ -1,6 +1,6 @@
 import * as _nav from "../components/nav.js";
 
-const component = X.element.create("x-nav", { slot: "aux" });
+const component = createElement("x-nav");
 component.links.add("linkA", { text: "Link A" });
 component.links.add("linkB", { text: "Link B" });
 

@@ -5,7 +5,7 @@ function composeRoot(component, kwargs = {}) {
   // Destructure.
   const { cssClasses = [], html = null, tag = "div" } = kwargs;
 
-  component.root = X.element.create(`${tag}.root`);
+  component.root = createElement(`${tag}.root`);
   cssClasses.forEach((cssClass) => component.root.classList.add(cssClass));
 
   if (html) {

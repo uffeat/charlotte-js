@@ -179,6 +179,166 @@ const createElementFromHtml = (html, kwargs = {}) => {
 
 window.createElementFromHtml = createElementFromHtml
 
+
+
+// Component creation
+
+/**
+ * Creation and caching of components (web components, i.e., custom elements).
+ */
+class _Component {
+  constructor() {
+    class Cache {
+      constructor() {
+        // `this._registry` informs intent to cache/use cache and holds cache key func.
+        this._registry = {}; // {tag: keyFunc, tag: keyFunc, ...}
+
+        // `this._storage` is actual cache.
+        this._storage = {}; // {key: component, key: component, ...}
+      }
+
+      /**
+       * Registers component (by tag) for caching along with key function.
+       * @param {string} tag - The tag name of the component.
+       * @param {Function} keyFunc - The function that generates a component identifier from `item`.
+       */
+      register(tag, keyFunc) {
+        // Checks.
+        if (!tag.startsWith("x-")) {
+          tag = `x-${tag}`;
+        }
+        if (typeof keyFunc !== "function") {
+          throw new TypeError("Second arg in `register` must be a function.");
+        }
+
+        // Store "tag: keyFunc" in registry.
+        this._registry[tag] = keyFunc;
+        console.log(`Component \`${tag}\` registered for caching.`);
+      }
+
+      /**
+       * Returns `True` if the component with `tag` is registered for caching.
+       * @param {string} tag - The tag name of the component.
+       * @returns {boolean}
+       */
+      _registered(tag) {
+        return this._registry.hasOwnProperty(tag);
+      }
+
+      /**
+       * Stores component in cache.
+       * @param {Element} component - The component to store in cache.
+       */
+      _storeComponent(component) {
+        // Normalize tag.
+        const tag = component.tagName.toLowerCase();
+
+        const item = component.item;
+        const key = this._genKey(tag, item);
+        this._storage[key] = component;
+        console.log(
+          `Stored \`${tag}\` component in cache with key \`${key}\`.`
+        );
+      }
+
+      /**
+       * Returns cached component (`null` if not in cache).
+       * @param {string} tag - The tag name of the component.
+       * @param {*} item - The item used to generate the cache key.
+       * @returns {Element|null}
+       */
+      _getComponent(tag, item) {
+        const key = this._genKey(tag, item);
+        return this._storage.hasOwnProperty(key) ? this._storage[key] : null;
+      }
+
+      /**
+       * Returns cache key generated from tag and key func stored in `this._registry`.
+       * @param {string} tag - The tag name of the component.
+       * @param {*} item - The item used to generate the cache key.
+       * @returns {string}
+       */
+      _genKey(tag, item) {
+        const keyFunc = this._registry[tag];
+        const key = `${tag}_${keyFunc(item)}`;
+        return key;
+      }
+    }
+    this.cache = new Cache();
+  }
+
+  /**
+   * Returns (possibly cached) component (and possibly caches component).
+   * @param {string} tag - The tag name of the component.
+   * @param {*} item - The item used to generate the cache key.
+   * @param {*} parent - The parent element for the component.
+   * @returns {Element}
+   */
+  create(tag, kwargs = {}) {
+    if (!tag.startsWith("x-")) {
+      tag = `x-${tag}`;
+    }
+
+    ////////////
+    // Destructure.
+    const { item = null, parent = null } = checkKwargs(
+      kwargs,
+      "item",
+      "parent"
+    );
+
+    console.log(`Creating component with item: ${item}`);
+
+    if (!window.customElements.get(tag)) {
+      throw new Error(`No component registered with tag \`${tag}\`.`);
+    }
+
+    if (this.cache._registered(tag)) {
+      // Component is cache-registered.
+      if (!item) {
+        throw new Error(
+          `Cache-registered component \`${tag}\` must be created with \`item\`.`
+        );
+      }
+      const component = this.cache._getComponent(tag, item);
+      if (component) {
+        // Component found in cache store.
+        console.log(`Using cached component \`${tag}\`.`);
+        if (parent) {
+          component.parent = parent;
+        }
+        return component;
+      }
+    }
+
+    const component = document.createElement(tag);
+
+    if (item) {
+      if (!("item" in component)) {
+        throw new Error(`Component \`${tag}\` does not have an \`item\` prop.`);
+      }
+      component.item = item;
+    }
+
+    if (this.cache._registered(tag)) {
+      // Component is cache-registered but not yet stored.
+      if (!item) {
+        throw new Error(
+          `Cannot store component \`${tag}\` in cache without \`item\` set.`
+        );
+      }
+      this.cache._storeComponent(component);
+    }
+
+    if (parent) {
+      component.parent = parent;
+    }
+    return component;
+  }
+}
+
+window.X["component"] = new _Component();
+
 // STRUCTURE.
 
 Object.defineProperty(HTMLElement.prototype, "parent", {
