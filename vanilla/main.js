@@ -10,5 +10,5 @@ import {component as mainNav} from '../src/components/app/main-nav.js'
 server.get("test");
 */
 
-document.getElementById('navbar').append(auxNav)
-document.getElementById('navbar').append(mainNav)
+const navBar = document.getElementById('navbar')
+navBar.append(auxNav, mainNav)
