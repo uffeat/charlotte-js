@@ -11,7 +11,7 @@ ShadowRoot.prototype.getAll = ShadowRoot.prototype.querySelectorAll;
 document.get = document.querySelector;
 document.getAll = document.querySelectorAll;
 
-document.root = document.getElementById("appGoesHere");
+document.root = document.getElementById("root");
 
 // X
 

@@ -39,3 +39,21 @@ const showToast = (content, kwargs = {}) => {
 };
 
 export { showToast };
+
+
+/*
+EXAMPLE
+
+showToast("Toasted again...", { headline: "A Toast!", delay: 3000 });
+showToast("Short but dangerous.", {
+  headline: "A shorter Toast!",
+  delay: 1000,
+  styleName: "danger",
+});
+showToast("Toooooaaaaasssstttttt!!!!", {
+  headline: "A long dark Toast!",
+  delay: 5000,
+  styleName: "dark",
+});
+
+*/

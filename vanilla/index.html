@@ -18,11 +18,17 @@
     <link rel="stylesheet" href="../src/libs/bootstrap/custom.css" />
     <script src="../src/libs/bootstrap/core.js"></script>
     <!--App style-->
-    <link rel="stylesheet" href="../src/styles/app.css">
+    <link rel="stylesheet" href="../src/styles/app.css" />
     <!--App script-->
     <script type="module" src="./main.js"></script>
   </head>
   <body>
-    <div id="appGoesHere"></div>
+    <div id="root">
+      <header>
+        <x-navbar id="navbar"> </x-navbar>
+      </header>
+      <main></main>
+      <footer></footer>
+    </div>
   </body>
 </html>
