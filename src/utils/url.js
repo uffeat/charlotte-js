@@ -36,9 +36,7 @@ function parseLocationHash() {
   const hash = window.location.hash.slice(1);
 
   // If the hash is empty, return nothing
-  if (hash === '') {
-    return;
-  }
+  if (hash === '') return;
 
   // Initialize the result object
   const result = {};
